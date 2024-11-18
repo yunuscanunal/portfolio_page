@@ -1,0 +1,79 @@
+.work-experience-section {
+  padding: 4rem 10%;
+  background-color: #1a1a1d;
+  color: #ffffff;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #a64d79;
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  max-width: 1200px; /* Max genişlik ayarlandı */
+  margin: 0 auto; /* Ortalamak için */
+}
+
+.experience-card {
+  display: flex;
+  align-items: center;
+  background-color: #3b1c32;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.experience-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+  font-size: 6rem;
+  margin-right: 1.5rem;
+  color: #a64d79;
+  transition: transform 0.3s ease;
+}
+
+.experience-card:hover .card-icon {
+  transform: scale(1.2);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  font-size: 1rem;
+  color: #b0b0b0;
+}
+
+.learn-more {
+  background-color: #6a1e55;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.learn-more:hover {
+  background-color: #a64d79;
+}
+
+@media (max-width: 768px) {
+  .experience-grid {
+    grid-template-columns: 1fr;
+  }
+}
