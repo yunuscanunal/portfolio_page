@@ -35,7 +35,7 @@ const experiences = [
 
 const WorkExperience: React.FC = () => {
   return (
-    <section className="work-experience-section">
+    <section id="experience" className="work-experience-section">
       <h2 className="section-title">Work Experience</h2>
       <div className="experience-grid">
         {experiences.map((exp) => (

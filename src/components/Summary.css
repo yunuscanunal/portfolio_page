@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   background-color: #1a1a1d;
-  padding: 5rem 2rem;
+  padding: 4rem 10%; /* Sağ ve sol padding'i diğer section'larla eşitle */
   min-height: 50vh;
 }
 

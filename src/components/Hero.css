@@ -47,7 +47,6 @@
 .text-container {
   flex: 2;
   color: #ffffff;
-  margin-left: 4rem;
   text-align: left;
 }
 
@@ -76,10 +75,10 @@ h1 {
 @media (max-width: 768px) {
   .hero-content {
     flex-direction: column;
-    align-items: center;
   }
 
   .text-container {
+    margin-left: 0rem;
     margin-top: 2rem;
   }
 

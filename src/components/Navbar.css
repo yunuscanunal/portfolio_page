@@ -1,6 +1,11 @@
 .custom-navbar {
   background-color: #1a1a1d;
-  padding: 1rem;
+  padding: 0.5rem 0; /* Daha minimal padding */
+}
+
+.navbar .container {
+  max-width: 1200px; /* Diğer section'larla uyumlu genişlik */
+  padding: 0 20px; /* Sağ ve sol boşluk */
 }
 
 .navbar-logo {
@@ -10,8 +15,9 @@
 
 .navbar-nav .nav-link {
   color: #ffffff;
-  margin-left: 20px;
-  font-size: 1.5rem;
+  margin-left: 5px;
+  font-size: 1.2rem; /* Daha dengeli bir boyut */
+  transition: color 0.3s ease-in-out; /* Hover efekti için yumuşak geçiş */
 }
 
 .navbar-nav .nav-link:hover {
@@ -21,6 +27,59 @@
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.1);
 }
+
 .navbar-toggler-icon {
   filter: invert(100%); /* Hamburger menüyü beyaz yapalım */
+}
+
+/* CV Tooltip Stili */
+.cv-link .tooltip {
+  visibility: hidden; /* Varsayılan olarak gizli */
+  opacity: 0;
+  background-color: #a64d79;
+  color: #ffffff;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 40px; /* Tooltip'i ikonun altına yerleştirdik */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.9rem;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10; /* Tooltip'in diğer öğelerin üzerinde görünmesini sağlar */
+}
+
+/* Tooltip Hover Aktif */
+.cv-link:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* CV İkonu Ayarları */
+.cv-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Tooltip için referans konumlandırma */
+}
+.cv-link svg {
+  font-size: 1.8rem; /* İkon boyutu */
+  transition: transform 0.3s ease-in-out;
+}
+.cv-link:hover svg {
+  transform: scale(1.2); /* Hover sırasında büyüme efekti */
+}
+
+/* Responsive Düzenlemeler */
+@media (max-width: 768px) {
+  .navbar-nav .nav-link {
+    font-size: 1rem; /* Küçük ekranlarda daha küçük yazı */
+    margin-left: 0; /* Ekstra boşluğu kaldır */
+    text-align: center;
+  }
+  .custom-navbar {
+    padding: 0.7rem 0; /* Mobilde daha az padding */
+  }
 }

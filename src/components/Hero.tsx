@@ -4,7 +4,7 @@ import avatar from "../assets/avatar.png";
 
 const Hero: React.FC = () => {
   return (
-    <section className="hero-section">
+    <section id="home" className="hero-section">
       <div className="hero-content">
         {/* Sol taraf: Avatar */}
         <div className="avatar-container">

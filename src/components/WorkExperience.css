@@ -1,5 +1,5 @@
 .work-experience-section {
-  padding: 4rem 10%;
+  padding: 10rem 10%;
   background-color: #1a1a1d;
   color: #ffffff;
   text-align: center;
@@ -34,6 +34,7 @@
 .experience-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #3b1c32, #6a1e55);
 }
 
 .card-icon {

@@ -3,7 +3,7 @@ import "./Summary.css";
 
 const Summary: React.FC = () => {
   return (
-    <section className="summary-section">
+    <section id="about" className="summary-section">
       <div className="summary-content">
         <h1 className="summary-title">I'm a Software Engineer</h1>
         <p className="summary-subtitle">

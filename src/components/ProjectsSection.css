@@ -1,0 +1,132 @@
+.projects-section {
+  padding: 10rem 10%;
+  background-color: #1a1a1d;
+  text-align: center;
+  color: #ffffff;
+}
+
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.project-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.project-info {
+  flex: 1;
+  background-color: #3b1c32;
+
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+.project-info:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #3b1c32, #6a1e55);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-title {
+  font-size: 1rem;
+  color: #a64d79;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.project-name {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.project-description {
+  font-size: 1rem;
+  color: #b0b0b0;
+  margin-bottom: 1.5rem;
+}
+
+.project-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center; /* Butonları ortala */
+}
+
+.projects-section .btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; /* Yuvarlak buton */
+  font-size: 1.5rem; /* İkon boyutu */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #a64d79;
+}
+
+.projects-section .btn:hover {
+  background-color: #ffffff;
+  color: #a64d79;
+  transform: scale(1.5); /* Hover sırasında hafif büyüme efekti */
+}
+
+.projects-section .btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Odaklanma sırasında vurgulama efekti */
+}
+
+.project-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.project-image {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+.error-message {
+  margin-top: 1rem;
+  color: #ff4c4c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+/* Responsive düzen */
+@media (max-width: 768px) {
+  .project-row {
+    flex-direction: column;
+  }
+
+  .row-reverse {
+    flex-direction: column;
+  }
+
+  .project-image-container {
+    width: 100%;
+  }
+}
