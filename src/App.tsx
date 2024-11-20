@@ -8,7 +8,7 @@ import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
-import Logo from "./assets/logo.svg";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 import "./App.css";
 
@@ -22,7 +22,11 @@ function App() {
       <WorkExperience></WorkExperience>
       <SkillsSection></SkillsSection>
       <ProjectsSection></ProjectsSection>
-      <ContactSection></ContactSection>
+      <GoogleReCaptchaProvider
+        reCaptchaKey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+      >
+        <ContactSection />
+      </GoogleReCaptchaProvider>
       <Footer />
     </>
   );

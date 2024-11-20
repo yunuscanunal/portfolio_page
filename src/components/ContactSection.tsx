@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ContactSection.css";
 import emailjs from "emailjs-com";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,9 @@ const ContactSection: React.FC = () => {
     message: "",
   });
 
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,21 +21,35 @@ const ContactSection: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    if (!executeRecaptcha) {
+      alert("Please complete the reCAPTCHA verification.");
+      return;
+    }
+    // reCAPTCHA doğrulama token'i al
+    const token = await executeRecaptcha("submit");
+    setRecaptchaToken(token);
+
+    //console.log("Recaptcha token:", token);
+
     emailjs
       .send(
-        "service_j6nsrna", // EmailJS'den aldığınız Service ID
-        "template_e0a1y4m", // EmailJS'den aldığınız Template ID
-        formData,
-        "DXHUSXBVZTl54iO-r" // EmailJS'den aldığınız User ID
+        process.env.REACT_APP_EMAILJS_SERVICE_ID!, // EmailJS'den aldığınız Service ID
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID!, // EmailJS'den aldığınız Template ID
+        {
+          ...formData,
+          "g-recaptcha-response": token, // Token'i ekle
+        },
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY // EmailJS'den aldığınız User ID
       )
       .then(
         (result) => {
           console.log("Message sent successfully:", result.text); // Başarılı gönderim
           setStatusMessage("Your message has been sent successfully!");
           setFormData({ name: "", email: "", message: "" }); // Formu sıfırla
+          setRecaptchaToken(null); // Reset reCAPTCHA
           clearStatusMessageAfterDelay();
         },
         (error) => {
@@ -84,11 +101,11 @@ const ContactSection: React.FC = () => {
             onChange={handleChange}
             required
           />
+
           <button type="submit" className="btn submit-btn">
             Send Message
           </button>
         </form>
-        {statusMessage && <p className="status-message">{statusMessage}</p>}
       </div>
     </section>
   );
