@@ -6,6 +6,19 @@
 /node_modules
 /.pnp
 .pnp.js
+# === FRONTEND (React / Node.js) ===
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.DS_Store
+
+# === BACKEND (Spring Boot / Java) ===
+backend/target/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/.env
+backend/.DS_Store
 
 # testing
 /coverage
