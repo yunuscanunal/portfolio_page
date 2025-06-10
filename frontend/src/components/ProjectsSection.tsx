@@ -1,48 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProjectsSection.css";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 
-const projects = [
-  {
-    id: 1,
-    title: "Example Project 1",
-    description:
-      "A web app for visualizing personalized Spotify data. View your top artists, top tracks, recently played songs, and detailed audio information for each track.",
-    image: "https://via.placeholder.com/600x400?text=Example+Project+1",
-    codeLink: "",
-    liveLink: "",
-  },
-  {
-    id: 2,
-    title: "Example Project 2",
-    description:
-      "A platform for managing tasks and collaborating with team members. Includes features like kanban boards and real-time notifications.",
-    image: "https://via.placeholder.com/600x400?text=Example+Project+2",
-    codeLink: "",
-    liveLink: "#",
-  },
-  {
-    id: 3,
-    title: "Example Project 3",
-    description:
-      "An e-commerce site with product listings, payment integration, and a smooth user experience.",
-    image: "https://via.placeholder.com/600x400?text=Example+Project+3",
-    codeLink: "",
-    liveLink: "",
-  },
-  {
-    id: 4,
-    title: "Example Project 4",
-    description:
-      "A machine learning app for predicting stock prices based on historical data. Provides insightful visualizations and predictions.",
-    image: "https://via.placeholder.com/600x400?text=Example+Project+4",
-    codeLink: "",
-    liveLink: "",
-  },
-];
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  link: string;
+  image?: string;
+  codeLink?: string;
+  liveLink?: string;
+};
 
 const ProjectsSection: React.FC = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [errors, setErrors] = useState<{ [key: number]: string }>({});
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        // Gelen veriye sahte alanları ekleyerek dönüyoruz
+        const enriched = data.map((p: any, index: number) => ({
+          id: index + 1,
+          title: p.title,
+          description: p.description,
+          link: p.link,
+          image:
+            "https://via.placeholder.com/600x400?text=" +
+            encodeURIComponent(p.title),
+          codeLink: p.link,
+          liveLink: p.link,
+        }));
+        setProjects(enriched);
+      })
+      .catch((err) => {
+        console.error("Veri alınırken hata:", err);
+      });
+  }, []);
 
   const handleButtonClick = (projectId: number, link: string) => {
     if (!link || link === "#") {
@@ -82,7 +77,7 @@ const ProjectsSection: React.FC = () => {
                 <button
                   className="btn icon-btn"
                   onClick={() =>
-                    handleButtonClick(project.id, project.codeLink)
+                    handleButtonClick(project.id, project.codeLink || "")
                   }
                 >
                   <FaGithub size={50} />
@@ -90,7 +85,7 @@ const ProjectsSection: React.FC = () => {
                 <button
                   className="btn icon-btn"
                   onClick={() =>
-                    handleButtonClick(project.id, project.liveLink)
+                    handleButtonClick(project.id, project.liveLink || "")
                   }
                 >
                   <FaGlobe size={50} />
