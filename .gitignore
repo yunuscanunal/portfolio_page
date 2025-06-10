@@ -26,13 +26,6 @@ backend/.DS_Store
 # production    
 /build
 
-backend/target/
-backend/.classpath
-backend/.project
-backend/.settings/
-backend/.env
-backend/.DS_Store
-
 *.iml
 .idea/
 .vscode/
