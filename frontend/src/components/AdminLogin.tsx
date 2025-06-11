@@ -44,9 +44,12 @@ const AdminLogin: React.FC = () => {
         placeholder="Şifre"
       />
       <button onClick={handleLogin}>Giriş Yap</button>
+      <button onClick={() => navigate("/")}>Anasayfa</button> {/* ⬆️ */}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };
 
 export default AdminLogin;
+
+<button onClick={() => (window.location.href = "/")}>Anasayfa</button>;

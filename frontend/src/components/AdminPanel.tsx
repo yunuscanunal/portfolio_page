@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { authFetch } from "../api/apiService"; // ekle
+import { useNavigate } from "react-router-dom";
 
 const AdminPanel: React.FC = () => {
   const [projectData, setProjectData] = useState({
@@ -9,6 +10,7 @@ const AdminPanel: React.FC = () => {
     codeLink: "",
     liveLink: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -107,8 +109,10 @@ const AdminPanel: React.FC = () => {
         style={{ display: "block", marginBottom: "10px" }}
       />
       <button onClick={handleSubmit}>➕ Proje Ekle</button>
+      <button onClick={() => navigate("/")}>Anasayfa</button> {/* ⬆️ */}
     </div>
   );
 };
 
 export default AdminPanel;
+<button onClick={() => (window.location.href = "/")}>Anasayfa</button>;
