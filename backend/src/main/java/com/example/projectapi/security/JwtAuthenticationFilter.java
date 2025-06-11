@@ -32,8 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-
             Claims claims = jwtUtil.extractAllClaims(token);
+
             if (claims != null) {
                 String username = claims.getSubject();
                 String role = claims.get("role", String.class);
@@ -43,6 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(authority));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                System.out.println("Token bulundu: " + token);
+                System.out.println("Token role claim: " + role);
+                System.out.println("Assigned authority: " + authority.getAuthority());
             }
         }
 
