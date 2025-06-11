@@ -15,7 +15,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuer("portfolio-api")
-                .claim("role", "ADMIN")
+                .claim("role", "ROLE_ADMIN")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 gün
                 .signWith(key)
