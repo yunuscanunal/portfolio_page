@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { authFetch } from "../api/apiService"; // ekle
+import { authFetch } from "../api/apiService";
 import { useNavigate } from "react-router-dom";
 
 const AdminPanel: React.FC = () => {
@@ -21,14 +21,6 @@ const AdminPanel: React.FC = () => {
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
-    const response = await authFetch("http://localhost:8080/api/projects", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // 👈 BU OLMALI
-      },
-      body: JSON.stringify(projectData),
-    });
 
     if (!token) {
       alert("Yetkisiz erişim. Lütfen giriş yapınız.");
@@ -36,12 +28,8 @@ const AdminPanel: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/projects", {
+      const response = await authFetch("http://localhost:8080/api/projects", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(projectData),
       });
 
@@ -109,10 +97,9 @@ const AdminPanel: React.FC = () => {
         style={{ display: "block", marginBottom: "10px" }}
       />
       <button onClick={handleSubmit}>➕ Proje Ekle</button>
-      <button onClick={() => navigate("/")}>Anasayfa</button> {/* ⬆️ */}
+      <button onClick={() => navigate("/")}>Anasayfa</button>
     </div>
   );
 };
 
 export default AdminPanel;
-<button onClick={() => (window.location.href = "/")}>Anasayfa</button>;
