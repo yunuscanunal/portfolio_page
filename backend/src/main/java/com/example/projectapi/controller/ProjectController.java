@@ -1,21 +1,28 @@
 package com.example.projectapi.controller;
 
 import com.example.projectapi.model.Project;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/projects")
-@CrossOrigin(origins = "http://localhost:3000") // React için CORS açıldı
 public class ProjectController {
+
+    // Mock list for now – ileride database'e bağlayabiliriz
+    private final List<Project> projects = new ArrayList<>();
 
     @GetMapping
     public List<Project> getAllProjects() {
-        return List.of(
-                new Project("Portfolio Website", "Kişisel web portfolyo projesi", "https://yunuscan.dev"),
-                new Project("Restaurant App", "Yemek seçme ve sipariş sistemi", "https://github.com/yunuscanunal/restaurant-app"),
-                new Project("E-commerce Frontend", "Sepet, ürün filtreleme, arama vs.", "https://github.com/yunuscanunal/ecommerce-app")
-        );
+        return projects;
+    }
+
+    @PostMapping
+    public ResponseEntity<String> addProject(@RequestBody Project project) {
+        projects.add(project);
+        System.out.println("✅ Yeni proje eklendi: " + project.getTitle());
+        return ResponseEntity.ok("Proje başarıyla eklendi");
     }
 }

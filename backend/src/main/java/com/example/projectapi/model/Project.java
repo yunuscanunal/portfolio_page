@@ -3,24 +3,51 @@ package com.example.projectapi.model;
 public class Project {
     private String title;
     private String description;
-    private String link;
+    private String image;
+    private String codeLink;
+    private String liveLink;
 
-    public Project() {
+    // Empty constructor
+    public Project() {}
+
+    // Getters and Setters
+    public String getTitle() {
+        return title;
     }
 
-    public Project(String title, String description, String link) {
+    public void setTitle(String title) {
         this.title = title;
-        this.description = description;
-        this.link = link;
     }
 
-    // Getters and setters
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public String getLink() { return link; }
-    public void setLink(String link) { this.link = link; }
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCodeLink() {
+        return codeLink;
+    }
+
+    public void setCodeLink(String codeLink) {
+        this.codeLink = codeLink;
+    }
+
+    public String getLiveLink() {
+        return liveLink;
+    }
+
+    public void setLiveLink(String liveLink) {
+        this.liveLink = liveLink;
+    }
 }
