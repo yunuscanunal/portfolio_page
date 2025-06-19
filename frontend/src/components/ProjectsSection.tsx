@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./ProjectsSection.css";
 import { FaGithub, FaGlobe } from "react-icons/fa";
+import { LangContext } from "../App";
 
 type Project = {
   id: number;
@@ -15,6 +16,7 @@ type Project = {
 const ProjectsSection: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [errors, setErrors] = useState<{ [key: number]: string }>({});
+  const { t } = useContext(LangContext);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/projects")
@@ -43,7 +45,7 @@ const ProjectsSection: React.FC = () => {
     if (!link || link === "#") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [projectId]: "This link is not available. Please try again later.",
+        [projectId]: t("linkNotAvailable"),
       }));
 
       // Hata mesajını 3 saniye sonra temizle
@@ -70,7 +72,7 @@ const ProjectsSection: React.FC = () => {
             }`}
           >
             <div className="project-info">
-              <h3 className="project-title">Featured Project</h3>
+              <h3 className="project-title">{t("featuredProject")}</h3>
               <h2 className="project-name">{project.title}</h2>
               <p className="project-description">{project.description}</p>
               <div className="project-buttons">

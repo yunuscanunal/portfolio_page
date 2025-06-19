@@ -1,0 +1,40 @@
+.admin-panel {
+  padding: 2rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.admin-panel h2,
+.admin-panel h3 {
+  color: var(--text-color);
+}
+
+.admin-panel .form-control {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--button-border);
+}
+
+.admin-panel .form-control:focus {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+.admin-panel .btn-custom {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.admin-panel .error-message {
+  color: var(--error-color);
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}

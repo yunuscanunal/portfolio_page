@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { authFetch } from "../api/apiService";
 import { useNavigate } from "react-router-dom";
+import { LangContext } from "../App";
+import Spinner from "./Spinner";
+import "./AdminPanel.css";
 
 // Proje tipi
 interface Project {
@@ -24,15 +27,29 @@ const AdminPanel: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [editId, setEditId] = useState<number | null>(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useContext(LangContext);
 
   // Projeleri çek
   const fetchProjects = async () => {
-    const res = await authFetch("http://localhost:8080/api/projects", {
-      method: "GET",
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setProjects(data);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await authFetch("http://localhost:8080/api/projects", {
+        method: "GET",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProjects(data);
+      } else {
+        setError("Projeler alınamadı.");
+      }
+    } catch (err) {
+      setError("Sunucu hatası.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,15 +62,30 @@ const AdminPanel: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setProjectData((prev) => ({ ...prev, [name]: value }));
+    // Alan doğrulama
+    let error = "";
+    if (name === "title" && value.trim() === "") error = "Başlık zorunlu";
+    if (name === "description" && value.trim() === "")
+      error = "Açıklama zorunlu";
+    setFieldErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   // Proje ekle veya güncelle
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Yetkisiz erişim. Lütfen giriş yapınız.");
+      setError("Yetkisiz erişim. Lütfen giriş yapınız.");
       return;
     }
+    // Alanlar için son kontrol
+    const errors: { [key: string]: string } = {};
+    if (projectData.title.trim() === "") errors.title = "Başlık zorunlu";
+    if (projectData.description.trim() === "")
+      errors.description = "Açıklama zorunlu";
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+    setLoading(true);
+    setError(null);
     try {
       let response;
       if (editId) {
@@ -74,7 +106,6 @@ const AdminPanel: React.FC = () => {
         });
       }
       if (response.ok) {
-        alert(editId ? "Proje güncellendi" : "Proje eklendi");
         setProjectData({
           id: 0,
           title: "",
@@ -86,24 +117,33 @@ const AdminPanel: React.FC = () => {
         setEditId(null);
         fetchProjects();
       } else {
-        alert("İşlem başarısız");
+        setError("İşlem başarısız.");
       }
     } catch (error) {
-      alert("Sunucu hatası");
+      setError("Sunucu hatası.");
+    } finally {
+      setLoading(false);
     }
   };
 
   // Proje sil
   const handleDelete = async (id: number) => {
     if (!window.confirm("Bu projeyi silmek istediğinize emin misiniz?")) return;
-    const res = await authFetch(`http://localhost:8080/api/projects/${id}`, {
-      method: "DELETE",
-    });
-    if (res.ok) {
-      alert("Proje silindi");
-      fetchProjects();
-    } else {
-      alert("Silme başarısız");
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await authFetch(`http://localhost:8080/api/projects/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        fetchProjects();
+      } else {
+        setError("Silme başarısız.");
+      }
+    } catch (error) {
+      setError("Sunucu hatası.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,52 +154,57 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Admin Panel - Yeni Proje Ekle / Düzenle</h2>
+    <div className="admin-panel">
+      <h2>{t("adminPanel")}</h2>
+      {error && <div className="error-message">{error}</div>}
+      {loading && <Spinner />}
       <input
         name="title"
+        className="form-control"
         value={projectData.title}
         onChange={handleChange}
-        placeholder="Başlık"
-        style={{ display: "block", marginBottom: "10px" }}
+        placeholder={t("titlePlaceholder")}
       />
+      {fieldErrors.title && (
+        <div className="error-message">{fieldErrors.title}</div>
+      )}
       <textarea
         name="description"
+        className="form-control"
         value={projectData.description}
         onChange={handleChange}
-        placeholder="Açıklama"
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          width: "300px",
-          height: "100px",
-        }}
+        placeholder={t("descriptionPlaceholder")}
       />
+      {fieldErrors.description && (
+        <div className="error-message">{fieldErrors.description}</div>
+      )}
       <input
         name="image"
+        className="form-control"
         value={projectData.image}
         onChange={handleChange}
-        placeholder="Görsel URL"
-        style={{ display: "block", marginBottom: "10px" }}
+        placeholder={t("imagePlaceholder")}
       />
       <input
         name="codeLink"
+        className="form-control"
         value={projectData.codeLink}
         onChange={handleChange}
-        placeholder="GitHub Link"
-        style={{ display: "block", marginBottom: "10px" }}
+        placeholder={t("codeLinkPlaceholder")}
       />
       <input
         name="liveLink"
+        className="form-control"
         value={projectData.liveLink}
         onChange={handleChange}
-        placeholder="Canlı Link"
-        style={{ display: "block", marginBottom: "10px" }}
+        placeholder={t("liveLinkPlaceholder")}
       />
-      <button onClick={handleSubmit}>
-        {editId ? "Kaydet (Güncelle)" : "➕ Proje Ekle"}
+      <button onClick={handleSubmit} className="btn-custom">
+        {editId ? t("save") : t("addProject")}
       </button>
-      <button onClick={() => navigate("/")}>Anasayfa</button>
+      <button onClick={() => navigate("/")} className="btn-custom">
+        {t("home")}
+      </button>
 
       <hr />
       <h3>Projeler</h3>

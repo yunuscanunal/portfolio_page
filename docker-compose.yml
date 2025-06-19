@@ -14,6 +14,7 @@ services:
   backend:
     build: ./backend
     environment:
+      ADMIN_USERNAME: admin
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/portfolio_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin1234

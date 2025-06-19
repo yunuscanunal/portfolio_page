@@ -17,7 +17,7 @@ public class JwtUtil {
                 .setIssuer("portfolio-api")
                 .claim("role", "ROLE_ADMIN")
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 gün
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 saat
                 .signWith(key)
                 .compact();
     }

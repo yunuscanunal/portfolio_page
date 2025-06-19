@@ -1,6 +1,12 @@
 .custom-navbar {
   background-color: #1a1a1d;
   padding: 0.5rem 0; /* Daha minimal padding */
+  position: fixed; /* Sayfada sabit kalması için */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Tema butonlarından daha düşük bir değer */
+  transition: background-color 0.3s ease-in-out;
 }
 
 .navbar .container {
@@ -30,6 +36,10 @@
 
 .navbar-toggler-icon {
   filter: invert(100%); /* Hamburger menüyü beyaz yapalım */
+}
+
+body.dark .navbar-toggler-icon {
+  filter: invert(100%);
 }
 
 /* CV Tooltip Stili */
@@ -82,4 +92,25 @@
   .custom-navbar {
     padding: 0.7rem 0; /* Mobilde daha az padding */
   }
+}
+
+/* Tema ve Dil Butonları Stilleri */
+.nav-controls {
+  padding: 5px 0; /* Mobil menüde boşluk bırakmak için */
+}
+
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 0 10px;
+}
+
+.lang-select {
+  width: auto;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--button-border);
 }

@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { TbFileCv } from "react-icons/tb";
 import "./Navbar.css";
+import { ThemeContext, LangContext } from "../App";
+import type { LangContextType } from "../App";
 
 const CustomNavbar: React.FC = () => {
   const [expanded, setExpanded] = useState(false); // Hamburger menü durumunu kontrol eden state
+  const { dark, toggle } = useContext(ThemeContext);
+  const { lang, setLang } = useContext(LangContext);
 
   const handleToggle = () => setExpanded(!expanded); // Aç/Kapat durumu
   const handleClose = () => setExpanded(false); // Menü öğesine tıklandığında kapat
@@ -17,6 +21,7 @@ const CustomNavbar: React.FC = () => {
       className="custom-navbar"
       fixed="top"
       expanded={expanded}
+      variant={dark ? "dark" : "light"}
     >
       <Container>
         {/* Logo */}
@@ -28,13 +33,23 @@ const CustomNavbar: React.FC = () => {
         <Navbar.Toggle aria-controls="navbar-nav" onClick={handleToggle} />
 
         {/* Menü Öğeleri */}
-        <Navbar.Collapse id="navbar-nav" onClick={handleClose}>
-          <Nav className="ms-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
-            <Nav.Link href="#experience">Experience</Nav.Link>
-            <Nav.Link href="#projects">Lab</Nav.Link>
-            <Nav.Link href="#contact">Contact</Nav.Link>
+        <Navbar.Collapse id="navbar-nav">
+          <Nav className="ms-auto align-items-center">
+            <Nav.Link href="#home" onClick={handleClose}>
+              Home
+            </Nav.Link>
+            <Nav.Link href="#about" onClick={handleClose}>
+              About
+            </Nav.Link>
+            <Nav.Link href="#experience" onClick={handleClose}>
+              Experience
+            </Nav.Link>
+            <Nav.Link href="#projects" onClick={handleClose}>
+              Lab
+            </Nav.Link>
+            <Nav.Link href="#contact" onClick={handleClose}>
+              Contact
+            </Nav.Link>
             <Nav.Link
               href="https://linkedin.com/in/yunuscanunal"
               target="_blank"
@@ -59,6 +74,23 @@ const CustomNavbar: React.FC = () => {
               <TbFileCv />
               <span className="tooltip">Click to see CV</span>
             </Nav.Link>
+
+            {/* Tema ve Dil Seçiciler */}
+            <div className="nav-controls d-flex align-items-center ms-lg-3">
+              <button onClick={toggle} className="theme-toggle-btn">
+                {dark ? "☀️" : "🌙"}
+              </button>
+              <select
+                value={lang}
+                onChange={(e) =>
+                  setLang(e.target.value as LangContextType["lang"])
+                }
+                className="lang-select form-select form-select-sm"
+              >
+                <option value="tr">TR</option>
+                <option value="en">EN</option>
+              </select>
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>
