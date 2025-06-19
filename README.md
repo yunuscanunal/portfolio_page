@@ -1,5 +1,6 @@
 # 🧠 PORTFOLIO-PAGE
  Available in: [English](README.md) | [Türkçe](README.tr.md)
+ 
 _Your Projects. Your Skills. All in One Place._
 
 ![Last Commit](https://img.shields.io/github/last-commit/yunuscanunal/portfolio_page?style=for-the-badge)
