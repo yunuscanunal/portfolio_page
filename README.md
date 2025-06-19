@@ -1,46 +1,116 @@
-# Getting Started with Create React App
+# 🧠 PORTFOLIO-PAGE
+ Available in: [English](README.md) | [Türkçe](README.tr.md)
+_Your Projects. Your Skills. All in One Place._
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Last Commit](https://img.shields.io/github/last-commit/yunuscanunal/portfolio_page?style=for-the-badge)
+![Java](https://img.shields.io/badge/Backend-Java-blue?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?style=for-the-badge&logo=spring)
+![React](https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-informational?style=for-the-badge&logo=typescript)
+![PostgreSQL](https://img.shields.io/badge/DB-PostgreSQL-blue?style=for-the-badge&logo=postgresql)
 
-## Available Scripts
+> Built using modern tools & technologies to showcase your personal software development portfolio.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🔎 Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [Overview](#overview)
+- [Why Portfolio-Page?](#why-portfolio-page)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [API Endpoints](#api-endpoints)
+- [Screenshots](#screenshots)
+- [License](#license)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## 📌 Overview
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This full-stack portfolio app allows you to:
+- Display your projects with links and images
+- Manage them via a secure admin panel (JWT-auth protected)
+- Easily deploy and showcase your skills with a professional frontend
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 💡 Why Portfolio-Page?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- ⚙️ **Modular Project Structure**: Clean separation of frontend and backend
+- 🔐 **JWT Authentication**: Secure access for project CRUD operations
+- 🧩 **React + TypeScript UI**: Responsive and modern design
+- 🗃️ **PostgreSQL Integration**: Reliable relational data storage
+- 🚀 **Production Ready**: Easily deployable on services like Render, Vercel or Railway
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🛠 Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 🔙 Backend
+- Java 17
+- Spring Boot
+- Spring Security + JWT
+- Hibernate / JPA
+- PostgreSQL
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🔜 Frontend
+- React
+- TypeScript
+- Axios
+- React Router DOM
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 🚀 Getting Started
 
-## Learn More
+### 1. Clone the repo
+```bash
+git clone https://github.com/yunuscanunal/portfolio_page.git
+cd portfolio_page
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 2. Setup PostgreSQL
+Create a database named `portfolio_db` and update your `application.properties`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/portfolio_db
+spring.datasource.username=your_user
+spring.datasource.password=your_password
+jwt.secret=your_jwt_secret
+```
+
+### 3. Run Backend
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+### 4. Run Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+
+---
+
+## 📡 API Endpoints
+
+| Method | Endpoint             | Description               |
+|--------|----------------------|---------------------------|
+| GET    | `/api/projects`      | List all projects         |
+| POST   | `/api/projects`      | Add new project (auth)    |
+| DELETE | `/api/projects/{id}` | Delete project (auth)     |
+| POST   | `/api/auth/login`    | Obtain JWT token          |
+
+---
+
+## 🖼️ Screenshots
+
+_Add your own UI screenshots here for visual context._
+
+---
+
+## 🪪 License
+
+This project is open-source and available under the [MIT License](LICENSE).
