@@ -1,5 +1,5 @@
 # 🧠 PORTFOLIO-PAGE
-
+ Available in: [English](README.md) | [Türkçe](README.tr.md)
 _Projelerinizi, becerilerinizi ve deneyimlerinizi tek bir yerde sergileyin._
 
 ![Son Güncelleme](https://img.shields.io/github/last-commit/yunuscanunal/portfolio_page?style=for-the-badge)
