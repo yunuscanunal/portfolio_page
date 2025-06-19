@@ -1,6 +1,7 @@
 # 🧠 PORTFOLIO-PAGE
- Available in: [English](README.md) | [Türkçe](README.tr.md)
- 
+
+Available in: [English](README.md) | [Türkçe](README.tr.md)
+
 _Projelerinizi, becerilerinizi ve deneyimlerinizi tek bir yerde sergileyin._
 
 ![Son Güncelleme](https://img.shields.io/github/last-commit/yunuscanunal/portfolio_page?style=for-the-badge)
@@ -20,6 +21,7 @@ _Projelerinizi, becerilerinizi ve deneyimlerinizi tek bir yerde sergileyin._
 - [Neden Portfolio-Page?](#neden-portfolio-page)
 - [Teknolojiler](#teknolojiler)
 - [Kurulum](#kurulum)
+- [Docker ile Çalıştırma](#docker-ile-çalıştırma)
 - [API Uç Noktaları](#api-uç-noktaları)
 - [Ekran Görüntüleri](#ekran-görüntüleri)
 - [Lisans](#lisans)
@@ -29,9 +31,11 @@ _Projelerinizi, becerilerinizi ve deneyimlerinizi tek bir yerde sergileyin._
 ## 📌 Genel Bakış
 
 Bu tam yığın portföy uygulaması ile:
+
 - Projelerinizi başlık, açıklama ve bağlantılarla sergileyin
 - Güvenli JWT kimlik doğrulama ile yeni projeler ekleyin / silin
 - Modern ve responsive bir arayüz ile kendinizi tanıtın
+- Docker ile kolayca kurulum ve dağıtım yapın
 
 ---
 
@@ -41,36 +45,44 @@ Bu tam yığın portföy uygulaması ile:
 - 🔐 **JWT Kimlik Doğrulama**: Proje işlemleri koruma altında
 - 🧩 **React + TypeScript Arayüz**: Modern ve kullanıcı dostu tasarım
 - 🗃️ **PostgreSQL Entegrasyonu**: Güvenilir veri saklama
-- 🚀 **Yayına Hazır**: Render, Vercel, Railway gibi platformlara deploy edilebilir
+- 🚀 **Yayına Hazır**: Docker ile her ortamda aynı şekilde çalışır
+- 🛡️ **Rate Limiting & Input Sanitization**: Güvenlik için ek önlemler
+- 📦 **Swagger/OpenAPI**: API dokümantasyonu ve test arayüzü
 
 ---
 
 ## 🛠 Teknolojiler
 
 ### 🔙 Backend
+
 - Java 17
 - Spring Boot
 - Spring Security + JWT
 - Hibernate / JPA
 - PostgreSQL
+- Docker, Swagger/OpenAPI
 
 ### 🔜 Frontend
+
 - React
 - TypeScript
 - Axios
 - React Router DOM
+- Docker, Nginx
 
 ---
 
 ## 🚀 Kurulum
 
 ### 1. Depoyu klonlayın
+
 ```bash
 git clone https://github.com/yunuscanunal/portfolio_page.git
 cd portfolio_page
 ```
 
 ### 2. PostgreSQL Veritabanı Oluşturun
+
 `portfolio_db` isimli bir veritabanı oluşturun ve `application.properties` dosyasını düzenleyin:
 
 ```properties
@@ -80,13 +92,15 @@ spring.datasource.password=veritabani_parola
 jwt.secret=gizli_jwt_anahtariniz
 ```
 
-### 3. Backend’i Başlatın
+### 3. Backend'i Başlatın
+
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-### 4. Frontend’i Başlatın
+### 4. Frontend'i Başlatın
+
 ```bash
 cd frontend
 npm install
@@ -95,14 +109,31 @@ npm start
 
 ---
 
+## 🐳 Docker ile Çalıştırma
+
+Tüm sistemi tek komutla başlatmak için:
+
+```bash
+docker-compose up --build
+```
+
+- PostgreSQL, backend ve frontend otomatik olarak başlatılır.
+- Backend: [http://localhost:8080](http://localhost:8080)
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+---
+
 ## 📡 API Uç Noktaları
 
-| Yöntem | Endpoint              | Açıklama                   |
-|--------|------------------------|-----------------------------|
-| GET    | `/api/projects`       | Tüm projeleri getirir       |
-| POST   | `/api/projects`       | Yeni proje ekler (auth)     |
-| DELETE | `/api/projects/{id}`  | Proje siler (auth)          |
-| POST   | `/api/auth/login`     | JWT token alımı             |
+| Yöntem | Endpoint             | Açıklama                |
+| ------ | -------------------- | ----------------------- |
+| GET    | `/api/projects`      | Tüm projeleri getirir   |
+| POST   | `/api/projects`      | Yeni proje ekler (auth) |
+| PUT    | `/api/projects/{id}` | Proje günceller (auth)  |
+| DELETE | `/api/projects/{id}` | Proje siler (auth)      |
+| POST   | `/api/auth/login`    | JWT token alımı         |
+| POST   | `/api/auth/register` | Yeni kullanıcı kaydı    |
 
 ---
 

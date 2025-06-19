@@ -1,16 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { authFetch } from "../api/apiService";
 import { useNavigate } from "react-router-dom";
 
+// Proje tipi
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image?: string;
+  codeLink?: string;
+  liveLink?: string;
+}
+
 const AdminPanel: React.FC = () => {
-  const [projectData, setProjectData] = useState({
+  const [projectData, setProjectData] = useState<Project>({
+    id: 0,
     title: "",
     description: "",
     image: "",
     codeLink: "",
     liveLink: "",
   });
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [editId, setEditId] = useState<number | null>(null);
   const navigate = useNavigate();
+
+  // Projeleri çek
+  const fetchProjects = async () => {
+    const res = await authFetch("http://localhost:8080/api/projects", {
+      method: "GET",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setProjects(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -19,43 +47,75 @@ const AdminPanel: React.FC = () => {
     setProjectData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Proje ekle veya güncelle
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       alert("Yetkisiz erişim. Lütfen giriş yapınız.");
       return;
     }
-
     try {
-      const response = await authFetch("http://localhost:8080/api/projects", {
-        method: "POST",
-        body: JSON.stringify(projectData),
-      });
-
+      let response;
+      if (editId) {
+        // Güncelle
+        response = await authFetch(
+          `http://localhost:8080/api/projects/${editId}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(projectData),
+          }
+        );
+      } else {
+        // Ekle
+        const { id, ...projectDataWithoutId } = projectData;
+        response = await authFetch("http://localhost:8080/api/projects", {
+          method: "POST",
+          body: JSON.stringify(projectDataWithoutId),
+        });
+      }
       if (response.ok) {
-        alert("✅ Proje başarıyla eklendi");
+        alert(editId ? "Proje güncellendi" : "Proje eklendi");
         setProjectData({
+          id: 0,
           title: "",
           description: "",
           image: "",
           codeLink: "",
           liveLink: "",
         });
+        setEditId(null);
+        fetchProjects();
       } else {
-        const err = await response.text();
-        console.error(err);
-        alert("❌ Proje eklenemedi");
+        alert("İşlem başarısız");
       }
     } catch (error) {
-      console.error(error);
-      alert("⚠️ Sunucu hatası");
+      alert("Sunucu hatası");
     }
+  };
+
+  // Proje sil
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Bu projeyi silmek istediğinize emin misiniz?")) return;
+    const res = await authFetch(`http://localhost:8080/api/projects/${id}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      alert("Proje silindi");
+      fetchProjects();
+    } else {
+      alert("Silme başarısız");
+    }
+  };
+
+  // Düzenle butonu
+  const handleEdit = (project: Project) => {
+    setProjectData(project);
+    setEditId(project.id);
   };
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h2>Admin Panel - Yeni Proje Ekle</h2>
+      <h2>Admin Panel - Yeni Proje Ekle / Düzenle</h2>
       <input
         name="title"
         value={projectData.title}
@@ -96,8 +156,32 @@ const AdminPanel: React.FC = () => {
         placeholder="Canlı Link"
         style={{ display: "block", marginBottom: "10px" }}
       />
-      <button onClick={handleSubmit}>➕ Proje Ekle</button>
+      <button onClick={handleSubmit}>
+        {editId ? "Kaydet (Güncelle)" : "➕ Proje Ekle"}
+      </button>
       <button onClick={() => navigate("/")}>Anasayfa</button>
+
+      <hr />
+      <h3>Projeler</h3>
+      <ul>
+        {projects.map((project) => (
+          <li key={project.id} style={{ marginBottom: "10px" }}>
+            <b>{project.title}</b> - {project.description}
+            <button
+              onClick={() => handleEdit(project)}
+              style={{ marginLeft: 10 }}
+            >
+              Düzenle
+            </button>
+            <button
+              onClick={() => handleDelete(project.id)}
+              style={{ marginLeft: 10 }}
+            >
+              Sil
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
