@@ -43,10 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(authority));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                System.out.println("Token bulundu: " + token);
-                System.out.println("Token role claim: " + role);
-                System.out.println("Assigned authority: " + authority.getAuthority());
             }
         }
 

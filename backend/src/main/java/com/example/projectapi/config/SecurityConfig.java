@@ -27,12 +27,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // CorsConfig.java'daki bean'i kullanır
+                .cors()
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/auth/**").permitAll();
-                    auth.requestMatchers("/api/projects/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/projects/**").hasAuthority("ROLE_ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/api/projects/**").hasAuthority("ROLE_ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/api/projects/**").hasAuthority("ROLE_ADMIN");
                     if ("dev".equals(activeProfile) || "development".equals(activeProfile)) {
                         auth.requestMatchers(
                                 "/swagger-ui/**",
@@ -43,22 +46,22 @@ public class SecurityConfig {
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // Gerekirse sadece "http://localhost:3000"
+        if ("prod".equals(activeProfile) || "production".equals(activeProfile)) {
+            configuration.setAllowedOriginPatterns(List.of("https://senin-domainin.com"));
+        } else {
+            configuration.setAllowedOriginPatterns(List.of("*") );
+        }
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 }

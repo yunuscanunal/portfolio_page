@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
+import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +26,15 @@ public class ProjectController {
 
     // Tüm projeleri getir
     @GetMapping
+    @Operation(summary = "Tüm projeleri getir", description = "Tüm projelerin listesini döner.")
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
 
     // Yeni proje ekle
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Operation(summary = "Yeni proje ekle", description = "Sadece admin tarafından yeni proje eklenir.")
     public ResponseEntity<?> addProject(@Valid @RequestBody Project project, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(
@@ -39,12 +44,13 @@ public class ProjectController {
             );
         }
         projectRepository.save(project);
-        System.out.println("✅ Yeni proje eklendi: " + project.getTitle());
         return ResponseEntity.ok("Proje başarıyla eklendi");
     }
 
     // Proje sil
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Operation(summary = "Proje sil", description = "Sadece admin tarafından proje silinir.")
     public ResponseEntity<String> deleteProject(@PathVariable Long id) {
         if (!projectRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
@@ -55,6 +61,8 @@ public class ProjectController {
 
     // Proje güncelle
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Operation(summary = "Proje güncelle", description = "Sadece admin tarafından proje güncellenir.")
     public ResponseEntity<?> updateProject(@PathVariable Long id, @Valid @RequestBody Project updatedProject, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(

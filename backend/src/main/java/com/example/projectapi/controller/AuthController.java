@@ -1,6 +1,7 @@
 package com.example.projectapi.controller;
 
 import com.example.projectapi.util.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class AuthController {
     private String adminPassword;
 
     @PostMapping("/login")
+    @Operation(summary = "Admin login", description = "Admin kullanıcı adı ve şifresi ile giriş yapar ve JWT token döner.")
     public Map<String, String> login(@RequestBody Map<String, String> body) {
         String username = body.get("username");
         String password = body.get("password");
