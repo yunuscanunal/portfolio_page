@@ -9,8 +9,9 @@ const ContactSection: React.FC = () => {
     email: "",
     message: "",
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
