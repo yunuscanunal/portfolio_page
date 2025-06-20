@@ -1,106 +1,102 @@
 # 🧠 PORTFOLIO-PAGE
 
-Available in: [English](README.md) | [Türkçe](README.tr.md)
+📄 Available in: [English](README.md) | [Türkçe](README.tr.md)
 
-_Projelerinizi, becerilerinizi ve deneyimlerinizi tek bir yerde sergileyin._
+_Projelerinizi ve becerilerinizi güvenli bir şekilde sergileyin._
 
 ![Son Güncelleme](https://img.shields.io/github/last-commit/yunuscanunal/portfolio_page?style=for-the-badge)
+![CI/CD](https://img.shields.io/github/actions/workflow/status/yunuscanunal/portfolio_page/ci-cd.yml?style=for-the-badge)
 ![Java](https://img.shields.io/badge/Backend-Java-blue?style=for-the-badge&logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?style=for-the-badge&logo=spring)
 ![React](https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-informational?style=for-the-badge&logo=typescript)
-![PostgreSQL](https://img.shields.io/badge/DB-PostgreSQL-blue?style=for-the-badge&logo=postgresql)
+![Docker](https://img.shields.io/badge/Dockerize-Edilmiş-informational?style=for-the-badge&logo=docker)
+![TypeScript](https://img.shields.io/badge/TypeScript-Katı-blue?style=for-the-badge&logo=typescript)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Uyumlu-blue?style=for-the-badge&logo=postgresql)
 
-> Yazılım geliştirici portföyümü sergilemek için modern araçlarla geliştirilmiş bir tam yığın uygulama.
+> Bu uygulama geliştiricilerin projelerini modern bir arayüz ve güvenli bir sistemle sunmasına yardımcı olur.
 
 ---
 
-## 🔎 İçindekiler
+## 📑 İçindekiler
 
 - [Genel Bakış](#genel-bakış)
 - [Neden Portfolio-Page?](#neden-portfolio-page)
 - [Teknolojiler](#teknolojiler)
+- [Özellikler](#özellikler)
 - [Kurulum](#kurulum)
-- [Docker ile Çalıştırma](#docker-ile-çalıştırma)
 - [API Uç Noktaları](#api-uç-noktaları)
-- [Ekran Görüntüleri](#ekran-görüntüleri)
+- [Docker Kullanımı](#docker-kullanımı)
 - [Lisans](#lisans)
 
 ---
 
 ## 📌 Genel Bakış
 
-Bu tam yığın portföy uygulaması ile:
-
-- Projelerinizi başlık, açıklama ve bağlantılarla sergileyin
-- Güvenli JWT kimlik doğrulama ile yeni projeler ekleyin / silin
-- Modern ve responsive bir arayüz ile kendinizi tanıtın
-- Docker ile kolayca kurulum ve dağıtım yapın
+Bu tam yığın uygulama sayesinde:
+- Projelerinizi listeleyebilir
+- Güvenli giriş sistemiyle yeni projeler ekleyebilirsiniz
+- Modern frontend sayesinde sergileyebilirsiniz
 
 ---
 
 ## 💡 Neden Portfolio-Page?
 
-- ⚙️ **Modüler Yapı**: Frontend ve backend temiz şekilde ayrılmıştır
-- 🔐 **JWT Kimlik Doğrulama**: Proje işlemleri koruma altında
-- 🧩 **React + TypeScript Arayüz**: Modern ve kullanıcı dostu tasarım
-- 🗃️ **PostgreSQL Entegrasyonu**: Güvenilir veri saklama
-- 🚀 **Yayına Hazır**: Docker ile her ortamda aynı şekilde çalışır
-- 🛡️ **Rate Limiting & Input Sanitization**: Güvenlik için ek önlemler
-- 📦 **Swagger/OpenAPI**: API dokümantasyonu ve test arayüzü
+- 🧩 **Tam Yığın ve Modüler Yapı**
+- 🔐 **JWT Kimlik Doğrulama & Rate Limiting**
+- 🐳 **Docker Desteği (Frontend + Backend)**
+- 🔄 **CI/CD ile Otomatik Deploy**
+- 📦 **Yeniden Kullanılabilir API Yapısı**
 
 ---
 
 ## 🛠 Teknolojiler
 
-### 🔙 Backend
+### Backend
+- Java 17, Spring Boot, Spring Security, JWT
+- PostgreSQL, Hibernate
+- Docker
 
-- Java 17
-- Spring Boot
-- Spring Security + JWT
-- Hibernate / JPA
-- PostgreSQL
-- Docker, Swagger/OpenAPI
+### Frontend
+- React + TypeScript
+- Axios, Router DOM
+- Docker + NGINX
 
-### 🔜 Frontend
+---
 
-- React
-- TypeScript
-- Axios
-- React Router DOM
-- Docker, Nginx
+## ✨ Özellikler
+
+- Proje listeleme, ekleme, silme (korumalı)
+- JWT ile kullanıcı girişi
+- Global hata yakalama
+- API Rate Limiting
 
 ---
 
 ## 🚀 Kurulum
 
-### 1. Depoyu klonlayın
-
+### 1. Depoyu klonla
 ```bash
 git clone https://github.com/yunuscanunal/portfolio_page.git
 cd portfolio_page
 ```
 
-### 2. PostgreSQL Veritabanı Oluşturun
-
-`portfolio_db` isimli bir veritabanı oluşturun ve `application.properties` dosyasını düzenleyin:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/portfolio_db
-spring.datasource.username=veritabani_kullanici_adi
-spring.datasource.password=veritabani_parola
-jwt.secret=gizli_jwt_anahtariniz
+### 2. Docker ile çalıştır
+```bash
+docker-compose up --build
 ```
 
-### 3. Backend'i Başlatın
+- Frontend: [http://localhost:80](http://localhost:80)
+- Backend: [http://localhost:8080](http://localhost:8080)
 
+### 3. Manuel Çalıştırmak İstersen
+
+Backend:
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-### 4. Frontend'i Başlatın
-
+Frontend:
 ```bash
 cd frontend
 npm install
@@ -109,40 +105,25 @@ npm start
 
 ---
 
-## 🐳 Docker ile Çalıştırma
-
-Tüm sistemi tek komutla başlatmak için:
-
-```bash
-docker-compose up --build
-```
-
-- PostgreSQL, backend ve frontend otomatik olarak başlatılır.
-- Backend: [http://localhost:8080](http://localhost:8080)
-- Frontend: [http://localhost:3000](http://localhost:3000)
-- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-
----
-
 ## 📡 API Uç Noktaları
 
-| Yöntem | Endpoint             | Açıklama                |
-| ------ | -------------------- | ----------------------- |
-| GET    | `/api/projects`      | Tüm projeleri getirir   |
-| POST   | `/api/projects`      | Yeni proje ekler (auth) |
-| PUT    | `/api/projects/{id}` | Proje günceller (auth)  |
-| DELETE | `/api/projects/{id}` | Proje siler (auth)      |
-| POST   | `/api/auth/login`    | JWT token alımı         |
-| POST   | `/api/auth/register` | Yeni kullanıcı kaydı    |
+| Yöntem | Endpoint | Açıklama |
+|--------|----------|----------|
+| GET | `/api/projects` | Projeleri listele |
+| POST | `/api/projects` | Yeni proje ekle (Auth gerekli) |
+| DELETE | `/api/projects/{id}` | Proje sil (Auth gerekli) |
+| POST | `/api/auth/login` | Giriş yap ve token al |
 
 ---
 
-## 🖼️ Ekran Görüntüleri
+## 🐳 Docker Kullanımı
 
-_Arayüzden ekran görüntüleri burada yer alabilir._
+- Frontend ve backend izole konteynerlerde çalışır
+- Frontend, NGINX üzerinden sunulur
+- `docker-compose.yml` ana dizinde yer alır
 
 ---
 
 ## 🪪 Lisans
 
-Bu proje açık kaynaklıdır ve [MIT Lisansı](LICENSE) ile sunulmaktadır.
+Bu proje MIT lisansı ile sunulmaktadır.
