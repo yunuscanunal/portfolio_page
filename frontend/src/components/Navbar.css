@@ -1,41 +1,51 @@
 .custom-navbar {
-  background-color: #1a1a1d;
-  padding: 0.5rem 0; /* Daha minimal padding */
-  position: fixed; /* Sayfada sabit kalması için */
+  background: rgba(26, 26, 29, 0.95);
+  box-shadow: 0 4px 24px 0 rgba(166, 77, 121, 0.1);
+  padding: 0.7rem 0;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; /* Tema butonlarından daha düşük bir değer */
-  transition: background-color 0.3s ease-in-out;
+  z-index: 1000;
+  transition: background 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(8px);
 }
 
 .navbar .container {
-  max-width: 1200px; /* Diğer section'larla uyumlu genişlik */
-  padding: 0 20px; /* Sağ ve sol boşluk */
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
 .navbar-logo {
-  width: 60px;
+  width: 52px;
   height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(166, 77, 121, 0.1);
 }
 
 .navbar-nav .nav-link {
-  color: #ffffff;
-  margin-left: 5px;
-  font-size: 1.2rem; /* Daha dengeli bir boyut */
-  transition: color 0.3s ease-in-out; /* Hover efekti için yumuşak geçiş */
+  color: #fff;
+  margin-left: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  transition: background 0.2s, color 0.2s;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #a64d79;
+  color: #fff;
+  background: #a64d79;
 }
 
 .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  background: transparent;
 }
 
 .navbar-toggler-icon {
-  filter: invert(100%); /* Hamburger menüyü beyaz yapalım */
+  filter: invert(100%);
 }
 
 body.dark .navbar-toggler-icon {
@@ -44,21 +54,21 @@ body.dark .navbar-toggler-icon {
 
 /* CV Tooltip Stili */
 .cv-link .tooltip {
-  visibility: hidden; /* Varsayılan olarak gizli */
+  visibility: hidden;
   opacity: 0;
-  background-color: #a64d79;
-  color: #ffffff;
+  background: #a64d79;
+  color: #fff;
   text-align: center;
   padding: 5px 10px;
   border-radius: 5px;
   position: absolute;
-  top: 40px; /* Tooltip'i ikonun altına yerleştirdik */
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   font-size: 0.9rem;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 10; /* Tooltip'in diğer öğelerin üzerinde görünmesini sağlar */
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 10;
 }
 
 /* Tooltip Hover Aktif */
@@ -72,45 +82,59 @@ body.dark .navbar-toggler-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Tooltip için referans konumlandırma */
+  position: relative;
 }
 .cv-link svg {
-  font-size: 1.8rem; /* İkon boyutu */
-  transition: transform 0.3s ease-in-out;
+  font-size: 1.7rem;
+  transition: transform 0.3s;
 }
 .cv-link:hover svg {
-  transform: scale(1.2); /* Hover sırasında büyüme efekti */
+  transform: scale(1.15);
 }
 
 /* Responsive Düzenlemeler */
 @media (max-width: 768px) {
   .navbar-nav .nav-link {
-    font-size: 1rem; /* Küçük ekranlarda daha küçük yazı */
-    margin-left: 0; /* Ekstra boşluğu kaldır */
+    font-size: 1rem;
+    margin-left: 0;
     text-align: center;
+    padding: 0.5rem 0.8rem;
   }
   .custom-navbar {
-    padding: 0.7rem 0; /* Mobilde daha az padding */
+    padding: 0.5rem 0;
   }
 }
 
 /* Tema ve Dil Butonları Stilleri */
 .nav-controls {
-  padding: 5px 0; /* Mobil menüde boşluk bırakmak için */
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .theme-toggle-btn {
   background: none;
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   cursor: pointer;
   color: var(--text-color);
-  padding: 0 10px;
+  padding: 0 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.theme-toggle-btn:hover {
+  background: #a64d79;
+  color: #fff;
 }
 
 .lang-select {
   width: auto;
-  background-color: var(--bg-color);
+  background: var(--bg-color);
   color: var(--text-color);
   border: 1px solid var(--button-border);
+  border-radius: 6px;
+  padding: 0.2rem 0.6rem;
+  font-size: 1rem;
 }

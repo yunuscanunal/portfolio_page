@@ -1,80 +1,89 @@
 .work-experience-section {
-  padding: 10rem 10%;
-  background-color: #1a1a1d;
-  color: #ffffff;
+  padding: 8rem 5% 6rem 5%;
+  background: linear-gradient(120deg, #1a1a1d 60%, #232526 100%);
+  color: #fff;
   text-align: center;
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-bottom: 3rem;
   color: #a64d79;
+  font-family: "Montserrat", "Segoe UI", "Arial", sans-serif;
 }
 
 .experience-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 2.2rem;
   justify-items: center;
-  max-width: 1200px; /* Max genişlik ayarlandı */
-  margin: 0 auto; /* Ortalamak için */
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .experience-card {
   display: flex;
   align-items: center;
-  background-color: #3b1c32;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(59, 28, 50, 0.95);
+  padding: 2.2rem 2rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(166, 77, 121, 0.13);
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
   width: 100%;
 }
 
 .experience-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 48px rgba(166, 77, 121, 0.22);
   background: linear-gradient(145deg, #3b1c32, #6a1e55);
 }
 
 .card-icon {
-  font-size: 6rem;
-  margin-right: 1.5rem;
+  font-size: 4.5rem;
+  margin-right: 1.2rem;
   color: #a64d79;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
 }
 
 .experience-card:hover .card-icon {
-  transform: scale(1.2);
+  transform: scale(1.15);
+  color: #fff;
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
+  font-family: "Montserrat", "Segoe UI", "Arial", sans-serif;
 }
 
 .card-description {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: #b0b0b0;
 }
 
 .learn-more {
-  background-color: #6a1e55;
+  background: linear-gradient(90deg, #a64d79 0%, #6a1e55 100%);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  color: #ffffff;
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
   margin-top: 1rem;
+  font-weight: 500;
 }
 
 .learn-more:hover {
-  background-color: #a64d79;
+  background: #fff;
+  color: #a64d79;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .experience-grid {
     grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .work-experience-section {
+    padding: 4rem 2% 3rem 2%;
   }
 }

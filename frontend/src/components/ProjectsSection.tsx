@@ -1,22 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProjectsSection.css";
-import { FaGithub, FaGlobe } from "react-icons/fa";
-import { LangContext } from "../App";
 
-type Project = {
+interface Project {
   id: number;
   title: string;
   description: string;
-  link: string;
+  link?: string;
   image?: string;
   codeLink?: string;
   liveLink?: string;
-};
+}
 
 const ProjectsSection: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [errors, setErrors] = useState<{ [key: number]: string }>({});
-  const { t } = useContext(LangContext);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/projects")
@@ -45,10 +42,8 @@ const ProjectsSection: React.FC = () => {
     if (!link || link === "#") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [projectId]: t("linkNotAvailable"),
+        [projectId]: "This link is not available. Please try again later.",
       }));
-
-      // Hata mesajını 3 saniye sonra temizle
       setTimeout(() => {
         setErrors((prevErrors) => {
           const updatedErrors = { ...prevErrors };
@@ -63,39 +58,40 @@ const ProjectsSection: React.FC = () => {
 
   return (
     <section id="projects" className="projects-section">
+      <h3 className="project-title">Featured Project</h3>
       <div className="projects-container">
-        {projects.map((project, index) => (
+        {projects.map((project, idx) => (
           <div
+            className={`project-row ${idx % 2 === 1 ? "row-reverse" : ""}`}
             key={project.id}
-            className={`project-row ${
-              index % 2 === 0 ? "row-normal" : "row-reverse"
-            }`}
           >
             <div className="project-info">
-              <h3 className="project-title">{t("featuredProject")}</h3>
-              <h2 className="project-name">{project.title}</h2>
-              <p className="project-description">{project.description}</p>
+              <div className="project-name">{project.title}</div>
+              <div className="project-description">{project.description}</div>
               <div className="project-buttons">
                 <button
-                  className="btn icon-btn"
+                  className="btn"
                   onClick={() =>
-                    handleButtonClick(project.id, project.codeLink || "")
+                    handleButtonClick(project.id, project.codeLink || "#")
                   }
+                  title="View Code"
                 >
-                  <FaGithub size={50} />
+                  &lt;/&gt;
                 </button>
                 <button
-                  className="btn icon-btn"
+                  className="btn"
                   onClick={() =>
-                    handleButtonClick(project.id, project.liveLink || "")
+                    handleButtonClick(project.id, project.liveLink || "#")
                   }
+                  title="View Live"
                 >
-                  <FaGlobe size={50} />
+                  &#128065;
                 </button>
               </div>
               {errors[project.id] && (
                 <div className="error-message">
-                  <span>⚠️</span> {errors[project.id]}
+                  <span className="error-icon">!</span>
+                  {errors[project.id]}
                 </div>
               )}
             </div>

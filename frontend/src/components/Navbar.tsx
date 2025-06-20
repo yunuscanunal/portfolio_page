@@ -1,19 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { TbFileCv } from "react-icons/tb";
 import "./Navbar.css";
-import { ThemeContext, LangContext } from "../App";
-import type { LangContextType } from "../App";
 
 const CustomNavbar: React.FC = () => {
-  const [expanded, setExpanded] = useState(false); // Hamburger menü durumunu kontrol eden state
-  const { dark, toggle } = useContext(ThemeContext);
-  const { lang, setLang } = useContext(LangContext);
+  const [expanded, setExpanded] = useState(false);
 
-  const handleToggle = () => setExpanded(!expanded); // Aç/Kapat durumu
-  const handleClose = () => setExpanded(false); // Menü öğesine tıklandığında kapat
+  const handleToggle = () => setExpanded(!expanded);
+  const handleClose = () => setExpanded(false);
 
   return (
     <Navbar
@@ -21,7 +17,6 @@ const CustomNavbar: React.FC = () => {
       className="custom-navbar"
       fixed="top"
       expanded={expanded}
-      variant={dark ? "dark" : "light"}
     >
       <Container>
         {/* Logo */}
@@ -66,7 +61,7 @@ const CustomNavbar: React.FC = () => {
             </Nav.Link>
             {/* CV Opener */}
             <Nav.Link
-              href="https://drive.google.com/file/d/12J6zAhfSZ3dBBXT1yqUeECWRGyiY3d8B/view?usp=sharing"
+              href="https://docs.google.com/document/d/13Md9lSQV3P9MTZjcAfLP6y8rVYcYP-9l/edit?usp=sharing&ouid=112358104379626606282&rtpof=true&sd=true"
               target="_blank"
               rel="noopener noreferrer"
               className="cv-link"
@@ -74,23 +69,6 @@ const CustomNavbar: React.FC = () => {
               <TbFileCv />
               <span className="tooltip">Click to see CV</span>
             </Nav.Link>
-
-            {/* Tema ve Dil Seçiciler */}
-            <div className="nav-controls d-flex align-items-center ms-lg-3">
-              <button onClick={toggle} className="theme-toggle-btn">
-                {dark ? "☀️" : "🌙"}
-              </button>
-              <select
-                value={lang}
-                onChange={(e) =>
-                  setLang(e.target.value as LangContextType["lang"])
-                }
-                className="lang-select form-select form-select-sm"
-              >
-                <option value="tr">TR</option>
-                <option value="en">EN</option>
-              </select>
-            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,8 +1,8 @@
 .projects-section {
-  padding: 10rem 10%;
-  background-color: #1a1a1d;
+  padding: 8rem 5% 6rem 5%;
+  background: linear-gradient(120deg, #1a1a1d 60%, #232526 100%);
   text-align: center;
-  color: #ffffff;
+  color: #fff;
 }
 
 .projects-container {
@@ -13,7 +13,7 @@
 
 .project-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 2rem;
 }
@@ -24,35 +24,39 @@
 
 .project-info {
   flex: 1;
-  background-color: #3b1c32;
-
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  color: #ffffff;
+  background: rgba(59, 28, 50, 0.95);
+  padding: 2.2rem 2rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(166, 77, 121, 0.13);
+  color: #fff;
+  transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .project-info:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 48px rgba(166, 77, 121, 0.22);
   background: linear-gradient(145deg, #3b1c32, #6a1e55);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #a64d79;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
+  letter-spacing: 0.04em;
 }
 
 .project-name {
-  font-size: 2rem;
+  font-size: 2.1rem;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: #fff;
+  font-family: "Montserrat", "Segoe UI", "Arial", sans-serif;
 }
 
 .project-description {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #b0b0b0;
   margin-bottom: 1.5rem;
 }
@@ -60,31 +64,32 @@
 .project-buttons {
   display: flex;
   gap: 1rem;
-  justify-content: center; /* Butonları ortala */
+  justify-content: center;
 }
 
 .projects-section .btn {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%; /* Yuvarlak buton */
-  font-size: 1.5rem; /* İkon boyutu */
+  border-radius: 50%;
+  font-size: 1.4rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #a64d79;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  background: linear-gradient(135deg, #a64d79 60%, #6a1e55 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(166, 77, 121, 0.1);
 }
-
 .projects-section .btn:hover {
-  background-color: #ffffff;
+  background: #fff;
   color: #a64d79;
-  transform: scale(1.5); /* Hover sırasında hafif büyüme efekti */
+  transform: scale(1.18);
 }
-
 .projects-section .btn:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Odaklanma sırasında vurgulama efekti */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 .project-image-container {
@@ -92,15 +97,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(166, 77, 121, 0.1);
+  background: #232526;
 }
 
 .project-image {
   width: 100%;
   height: auto;
-  border-radius: 15px;
+  border-radius: 18px;
   object-fit: cover;
 }
 
@@ -110,23 +116,24 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .error-icon {
   font-size: 1.2rem;
 }
-/* Responsive düzen */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .project-row {
     flex-direction: column;
+    gap: 2rem;
   }
-
   .row-reverse {
     flex-direction: column;
   }
-
   .project-image-container {
     width: 100%;
+  }
+  .projects-section {
+    padding: 4rem 2% 3rem 2%;
   }
 }

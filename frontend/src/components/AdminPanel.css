@@ -1,40 +1,137 @@
 .admin-panel {
-  padding: 2rem;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
+  max-width: 700px;
+  margin: 4rem auto 2rem auto;
+  background: rgba(35, 37, 38, 0.97);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(166, 77, 121, 0.13);
+  padding: 2.5rem 2rem 2rem 2rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.admin-panel h2,
+.admin-panel h2 {
+  color: #a64d79;
+  font-family: "Montserrat", "Segoe UI", "Arial", sans-serif;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
 .admin-panel h3 {
-  color: var(--text-color);
+  color: #ffb6c1;
+  font-size: 1.3rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
-.admin-panel .form-control {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border: 1px solid var(--button-border);
+.form-control {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 2px solid #a64d79;
+  background: #3b1c32;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s, background 0.3s;
+  outline: none;
+  box-sizing: border-box;
+}
+.form-control:focus {
+  border-color: #ffb6c1;
+  background: #2b2b2b;
 }
 
-.admin-panel .form-control:focus {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
-}
-
-.admin-panel .btn-custom {
-  background-color: var(--primary-color);
+.btn-custom {
+  background: linear-gradient(90deg, #a64d79 0%, #6a1e55 100%);
   color: #fff;
   border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-right: 10px;
+  margin: 0.5rem 0.5rem 1.2rem 0;
+  box-shadow: 0 2px 8px rgba(166, 77, 121, 0.1);
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-custom:hover {
+  background: #fff;
+  color: #a64d79;
+  transform: translateY(-2px) scale(1.04);
 }
 
-.admin-panel .error-message {
-  color: var(--error-color);
-  margin-bottom: 10px;
-  font-size: 0.9rem;
+.error-message {
+  color: #ff4c4c;
+  background: rgba(255, 76, 76, 0.08);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  width: 100%;
+  text-align: left;
+}
+
+.admin-panel ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+.admin-panel li {
+  background: rgba(59, 28, 50, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(166, 77, 121, 0.1);
+  margin-bottom: 1rem;
+  padding: 1.1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.admin-panel li b {
+  color: #ffb6c1;
+}
+.admin-panel li button {
+  background: linear-gradient(90deg, #a64d79 0%, #6a1e55 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 0.7rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.admin-panel li button:hover {
+  background: #fff;
+  color: #a64d79;
+}
+
+hr {
+  border: none;
+  border-top: 1.5px solid #a64d79;
+  margin: 2rem 0 1.5rem 0;
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .admin-panel {
+    max-width: 98vw;
+    padding: 1.2rem 0.3rem;
+  }
+  .form-control {
+    font-size: 0.98rem;
+    padding: 0.7rem 0.7rem;
+  }
+  .btn-custom {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+  }
+  .admin-panel li {
+    font-size: 0.98rem;
+    padding: 0.7rem 0.5rem;
+  }
 }

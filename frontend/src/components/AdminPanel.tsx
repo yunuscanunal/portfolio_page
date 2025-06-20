@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { authFetch } from "../api/apiService";
 import { useNavigate } from "react-router-dom";
-import { LangContext } from "../App";
 import Spinner from "./Spinner";
 import "./AdminPanel.css";
 
@@ -30,7 +29,6 @@ const AdminPanel: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
-  const { t } = useContext(LangContext);
 
   // Projeleri çek
   const fetchProjects = async () => {
@@ -44,10 +42,10 @@ const AdminPanel: React.FC = () => {
         const data = await res.json();
         setProjects(data);
       } else {
-        setError("Projeler alınamadı.");
+        setError("Failed to fetch projects.");
       }
     } catch (err) {
-      setError("Sunucu hatası.");
+      setError("Server error.");
     } finally {
       setLoading(false);
     }
@@ -64,9 +62,9 @@ const AdminPanel: React.FC = () => {
     setProjectData((prev) => ({ ...prev, [name]: value }));
     // Alan doğrulama
     let error = "";
-    if (name === "title" && value.trim() === "") error = "Başlık zorunlu";
+    if (name === "title" && value.trim() === "") error = "Title is required";
     if (name === "description" && value.trim() === "")
-      error = "Açıklama zorunlu";
+      error = "Description is required";
     setFieldErrors((prev) => ({ ...prev, [name]: error }));
   };
 
@@ -74,14 +72,14 @@ const AdminPanel: React.FC = () => {
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      setError("Yetkisiz erişim. Lütfen giriş yapınız.");
+      setError("Unauthorized access. Please login.");
       return;
     }
     // Alanlar için son kontrol
     const errors: { [key: string]: string } = {};
-    if (projectData.title.trim() === "") errors.title = "Başlık zorunlu";
+    if (projectData.title.trim() === "") errors.title = "Title is required";
     if (projectData.description.trim() === "")
-      errors.description = "Açıklama zorunlu";
+      errors.description = "Description is required";
     setFieldErrors(errors);
     if (Object.keys(errors).length > 0) return;
     setLoading(true);
@@ -117,10 +115,10 @@ const AdminPanel: React.FC = () => {
         setEditId(null);
         fetchProjects();
       } else {
-        setError("İşlem başarısız.");
+        setError("Operation failed.");
       }
     } catch (error) {
-      setError("Sunucu hatası.");
+      setError("Server error.");
     } finally {
       setLoading(false);
     }
@@ -128,7 +126,8 @@ const AdminPanel: React.FC = () => {
 
   // Proje sil
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Bu projeyi silmek istediğinize emin misiniz?")) return;
+    if (!window.confirm("Are you sure you want to delete this project?"))
+      return;
     setLoading(true);
     setError(null);
     try {
@@ -138,10 +137,10 @@ const AdminPanel: React.FC = () => {
       if (res.ok) {
         fetchProjects();
       } else {
-        setError("Silme başarısız.");
+        setError("Delete failed.");
       }
     } catch (error) {
-      setError("Sunucu hatası.");
+      setError("Server error.");
     } finally {
       setLoading(false);
     }
@@ -155,7 +154,7 @@ const AdminPanel: React.FC = () => {
 
   return (
     <div className="admin-panel">
-      <h2>{t("adminPanel")}</h2>
+      <h2>Admin Panel - Add / Edit Project</h2>
       {error && <div className="error-message">{error}</div>}
       {loading && <Spinner />}
       <input
@@ -163,7 +162,7 @@ const AdminPanel: React.FC = () => {
         className="form-control"
         value={projectData.title}
         onChange={handleChange}
-        placeholder={t("titlePlaceholder")}
+        placeholder="Project Title"
       />
       {fieldErrors.title && (
         <div className="error-message">{fieldErrors.title}</div>
@@ -173,7 +172,7 @@ const AdminPanel: React.FC = () => {
         className="form-control"
         value={projectData.description}
         onChange={handleChange}
-        placeholder={t("descriptionPlaceholder")}
+        placeholder="Project Description"
       />
       {fieldErrors.description && (
         <div className="error-message">{fieldErrors.description}</div>
@@ -183,31 +182,31 @@ const AdminPanel: React.FC = () => {
         className="form-control"
         value={projectData.image}
         onChange={handleChange}
-        placeholder={t("imagePlaceholder")}
+        placeholder="Image URL (optional)"
       />
       <input
         name="codeLink"
         className="form-control"
         value={projectData.codeLink}
         onChange={handleChange}
-        placeholder={t("codeLinkPlaceholder")}
+        placeholder="Code Link (optional)"
       />
       <input
         name="liveLink"
         className="form-control"
         value={projectData.liveLink}
         onChange={handleChange}
-        placeholder={t("liveLinkPlaceholder")}
+        placeholder="Live Link (optional)"
       />
       <button onClick={handleSubmit} className="btn-custom">
-        {editId ? t("save") : t("addProject")}
+        {editId ? "Save (Update)" : "➕ Add Project"}
       </button>
       <button onClick={() => navigate("/")} className="btn-custom">
-        {t("home")}
+        Home
       </button>
 
       <hr />
-      <h3>Projeler</h3>
+      <h3>Projects</h3>
       <ul>
         {projects.map((project) => (
           <li key={project.id} style={{ marginBottom: "10px" }}>
@@ -216,13 +215,13 @@ const AdminPanel: React.FC = () => {
               onClick={() => handleEdit(project)}
               style={{ marginLeft: 10 }}
             >
-              Düzenle
+              Edit
             </button>
             <button
               onClick={() => handleDelete(project.id)}
               style={{ marginLeft: 10 }}
             >
-              Sil
+              Delete
             </button>
           </li>
         ))}

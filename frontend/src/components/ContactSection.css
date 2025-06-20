@@ -1,23 +1,28 @@
 .contact-section {
-  padding: 10rem 10%;
-  background-color: #1a1a1d;
-  color: #ffffff;
+  padding: 8rem 5% 6rem 5%;
+  background: linear-gradient(120deg, #1a1a1d 60%, #232526 100%);
+  color: #fff;
   text-align: center;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
+  background: rgba(35, 37, 38, 0.92);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(166, 77, 121, 0.13);
+  padding: 2.5rem 2rem;
 }
 
 .contact-title {
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #a64d79;
+  font-family: "Montserrat", "Segoe UI", "Arial", sans-serif;
 }
 
 .contact-description {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: #b0b0b0;
   margin-bottom: 2rem;
 }
@@ -31,35 +36,36 @@
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.9rem 1.1rem;
   font-size: 1rem;
-  color: #ffffff;
-  background-color: #3b1c32;
-  border: 2px solid #6a1e55;
+  color: #fff;
+  background: #3b1c32;
+  border: 2px solid #a64d79;
   border-radius: 8px;
   outline: none;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: border-color 0.3s, background 0.3s;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: #a64d79;
-  background-color: #2b2b2b;
+  border-color: #ffb6c1;
+  background: #2b2b2b;
 }
 
 .contact-form .submit-btn {
-  padding: 0.8rem 1.5rem;
-  font-size: 1.2rem;
-  color: #ffffff;
-  background-color: #a64d79;
+  padding: 0.9rem 1.7rem;
+  font-size: 1.15rem;
+  color: #fff;
+  background: linear-gradient(90deg, #a64d79 0%, #6a1e55 100%);
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .contact-form .submit-btn:hover {
-  background-color: #ffffff;
+  background: #fff;
   color: #a64d79;
   transform: scale(1.05);
 }
@@ -67,5 +73,14 @@
 .status-message {
   margin-top: 1rem;
   font-size: 1rem;
-  color: #ffffff;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 1.2rem 0.5rem;
+  }
+  .contact-section {
+    padding: 4rem 2% 3rem 2%;
+  }
 }

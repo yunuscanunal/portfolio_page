@@ -2,18 +2,24 @@
 :root {
   --bg-color: #f5f5f5;
   --text-color: #222;
-  --primary-color: #1976d2;
+  --primary-color: #a64d79;
+  --secondary-color: #6a1e55;
   --error-color: #d32f2f;
-  --button-bg: rgba(255, 255, 255, 0.9);
-  --button-border: #ddd;
+  --button-bg: linear-gradient(90deg, #a64d79 0%, #6a1e55 100%);
+  --button-border: #a64d79;
+  --card-bg: #232526;
+  --card-shadow: 0 8px 32px 0 rgba(166, 77, 121, 0.15);
 }
 body.dark {
   --bg-color: #181818;
   --text-color: #f5f5f5;
-  --primary-color: #90caf9;
+  --primary-color: #ffb6c1;
+  --secondary-color: #a64d79;
   --error-color: #ef5350;
-  --button-bg: rgba(40, 40, 40, 0.9);
-  --button-border: #555;
+  --button-bg: linear-gradient(90deg, #6a1e55 0%, #a64d79 100%);
+  --button-border: #ffb6c1;
+  --card-bg: #1a1a1d;
+  --card-shadow: 0 8px 32px 0 rgba(255, 182, 193, 0.1);
 }
 body {
   background: var(--bg-color);
@@ -22,26 +28,74 @@ body {
 }
 
 h1 {
-  font-size: 3rem; /* Sayfa başlığı font boyutunu artırdık */
-  margin-top: 10rem;
-  color: #6a1e55;
+  font-size: 3rem;
+  margin-top: 8rem;
+  color: var(--primary-color);
+  font-family: "Montserrat", "Segoe UI", "Arial", sans-serif;
 }
 
-/* Tema butonları için özel stiller */
 .theme-controls {
-  background-color: var(--button-bg) !important;
-  border-color: var(--button-border) !important;
+  background: var(--button-bg) !important;
+  border: 1px solid var(--button-border) !important;
   color: var(--text-color) !important;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  padding: 0.5rem 1rem;
+  transition: background 0.3s, color 0.3s;
 }
-
 .theme-controls button,
 .theme-controls select {
-  background-color: transparent !important;
+  background: transparent !important;
   color: var(--text-color) !important;
-  border-color: var(--button-border) !important;
+  border: none;
+  font-size: 1rem;
+  margin: 0 0.5rem;
+}
+.theme-controls button:hover {
+  background: var(--primary-color) !important;
+  color: white !important;
+  border-radius: 6px;
 }
 
-.theme-controls button:hover {
-  background-color: var(--primary-color) !important;
-  color: white !important;
+/* Kart ve butonlar için modern efektler */
+.card {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.card:hover {
+  box-shadow: 0 16px 40px 0 rgba(166, 77, 121, 0.25);
+}
+.btn {
+  background: var(--button-bg);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(166, 77, 121, 0.1);
+  transition: background 0.3s, transform 0.2s;
+}
+.btn:hover {
+  background: var(--secondary-color);
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.2rem;
+    margin-top: 4rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+  }
 }
