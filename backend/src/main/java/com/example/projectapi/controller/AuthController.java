@@ -17,8 +17,8 @@ public class AuthController {
     @Value("${ADMIN_USERNAME:admin}")
     private String adminUsername;
 
-    // admin1234 şifresi
-    private final String adminPassword = "admin1234";
+    @Value("${ADMIN_PASSWORD:admin1234}")
+    private String adminPassword;
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody Map<String, String> body) {
