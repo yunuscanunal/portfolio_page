@@ -52,8 +52,14 @@ jobs:
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build & Run
         run: ./mvnw spring-boot:run
+      - name: Run JAR
+        run: java -jar target/*.jar
+        working-directory: ./backend
