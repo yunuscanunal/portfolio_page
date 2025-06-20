@@ -1,149 +1,129 @@
-# Portfolio Page - Full Stack Project
+# 🧠 PORTFOLIO-PAGE
 
-## About the Project
+📄 Available in: [English](README.md) | [Türkçe](README.tr.md)
 
-This is a full-stack portfolio application built with Java Spring Boot (backend) and React (frontend). It features JWT security, user management, rate limiting, input sanitization, Swagger/OpenAPI documentation, and full Docker support for easy deployment and development.
+_Your Projects. Your Skills. All in One Place._
 
----
+![Last Commit](https://img.shields.io/github/last-commit/yunuscanunal/portfolio_page?style=for-the-badge)
+![CI/CD](https://img.shields.io/github/actions/workflow/status/yunuscanunal/portfolio_page/ci-cd.yml?style=for-the-badge)
+![Java](https://img.shields.io/badge/Backend-Java-blue?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7+-green?style=for-the-badge&logo=spring)
+![React](https://img.shields.io/badge/Frontend-React-blue?style=for-the-badge&logo=react)
+![Docker](https://img.shields.io/badge/Dockerized-Yes-informational?style=for-the-badge&logo=docker)
+![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=for-the-badge&logo=typescript)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supported-blue?style=for-the-badge&logo=postgresql)
 
-## Backend (Spring Boot)
-
-### Setup
-
-1. `cd backend`
-2. Install dependencies:
-   ```
-   mvn clean install
-   ```
-3. Start the application:
-   ```
-   mvn spring-boot:run
-   ```
-4. By default, runs at [http://localhost:8080](http://localhost:8080)
-
-### Database
-
-- Uses PostgreSQL. Connection info is in `backend/src/main/resources/application.properties`.
-- Tables and schema are auto-generated.
-
-### Docker
-
-- Production-ready Dockerfile included (`backend/Dockerfile`).
-- Can be run standalone or with `docker-compose`.
-
-### Swagger/OpenAPI
-
-- API documentation and test UI:
-  - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-  - [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-
-### Key Features
-
-- JWT-based authentication
-- User management (register/login, hashed passwords)
-- Rate limiting (per-IP request limit)
-- Input sanitization (XSS protection)
-- Validation and global error handling
-- Docker support for easy deployment
+> Built using modern tools & technologies to showcase your portfolio and manage your projects securely.
 
 ---
 
-## Frontend (React + TypeScript)
+## 📑 Table of Contents
 
-### Setup
-
-1. `cd frontend`
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Start the app:
-   ```
-   npm start
-   ```
-4. Access the UI at [http://localhost:3000](http://localhost:3000)
-
-### Docker
-
-- Production-ready Dockerfile included (`frontend/Dockerfile`).
-- Serves the built app with Nginx.
-
-### Features
-
-- Admin panel for adding/updating/deleting projects
-- JWT-protected admin actions
-- Form validation and user-friendly error messages
-- Full API compatibility
-- Loading animations and clear feedback
+- [Overview](#overview)
+- [Why Portfolio-Page?](#why-portfolio-page)
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [API Endpoints](#api-endpoints)
+- [Docker Usage](#docker-usage)
+- [License](#license)
 
 ---
 
-## Orchestration (docker-compose)
+## 📌 Overview
 
-- `docker-compose.yml` launches PostgreSQL, backend, and frontend together.
-- All services are networked and environment variables are set for seamless integration.
-- One command to run everything:
-  ```
-  docker-compose up --build
-  ```
+This full-stack application helps developers:
+- Showcase personal projects
+- Add/remove/edit them securely via an admin panel
+- View them through a modern, responsive frontend
 
 ---
 
-## Developer Notes
+## 💡 Why Portfolio-Page?
 
-- Backend and frontend run on separate ports.
-- Swagger UI makes API endpoints easy to test.
-- Rate limiting and input sanitization are included for security.
-- Validation and error handling are implemented on both layers.
-- Easily extensible for CI/CD, advanced roles, and more.
+- 🧩 **Full-Stack Modular Design**
+- 🔐 **JWT Authentication & Rate Limiting**
+- 🐳 **Dockerized Services (Frontend + Backend)**
+- 🔄 **CI/CD Workflow via GitHub Actions**
+- 📦 **Reusable and Scalable Backend**
 
 ---
 
-If you have any issues or want to contribute, feel free to reach out!
+## 🛠 Tech Stack
 
-# Getting Started with Create React App
+### Backend
+- Java 17, Spring Boot, Spring Security, JWT
+- PostgreSQL, Hibernate
+- Docker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Frontend
+- React + TypeScript
+- Axios, Router DOM
+- Docker + NGINX
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- Project listing, creation, deletion (secured)
+- User login via JWT
+- Custom global exception handler
+- Rate limiting filter (API protection)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🚀 Getting Started
 
-### `npm test`
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yunuscanunal/portfolio_page.git
+cd portfolio_page
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. Run with Docker
+```bash
+docker-compose up --build
+```
 
-### `npm run build`
+- Frontend: [http://localhost:80](http://localhost:80)
+- Backend: [http://localhost:8080](http://localhost:8080)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. Or Run Manually
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Backend:
+```bash
+cd backend
+./mvnw spring-boot:run
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Frontend:
+```bash
+cd frontend
+npm install
+npm start
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📡 API Endpoints
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/projects` | List all projects |
+| POST | `/api/projects` | Create new project (Auth required) |
+| DELETE | `/api/projects/{id}` | Delete project (Auth required) |
+| POST | `/api/auth/login` | Login and receive token |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🐳 Docker Usage
 
-## Learn More
+- Runs both backend and frontend in isolated containers.
+- NGINX serves the frontend.
+- Uses `docker-compose.yml` at root.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🪪 License
+
+This project is licensed under the MIT License.
