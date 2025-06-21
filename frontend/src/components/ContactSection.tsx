@@ -43,7 +43,7 @@ const ContactSection: React.FC = () => {
           ...formData,
           "g-recaptcha-response": token, // Token'i ekle
         },
-        process.env.REACT_APP_EMAILJS_PUBLIC_KEY // EmailJS'den aldığınız User ID
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY! // EmailJS'den aldığınız User ID
       )
       .then(
         (result) => {
@@ -107,6 +107,28 @@ const ContactSection: React.FC = () => {
             Send Message
           </button>
         </form>
+
+        {statusMessage && (
+          <div
+            className="status-message"
+            style={{
+              color: statusMessage.includes("successfully")
+                ? "#4CAF50"
+                : "#f44336",
+              marginTop: "1rem",
+              padding: "0.5rem",
+              borderRadius: "4px",
+              backgroundColor: statusMessage.includes("successfully")
+                ? "rgba(76, 175, 80, 0.1)"
+                : "rgba(244, 67, 54, 0.1)",
+              border: `1px solid ${
+                statusMessage.includes("successfully") ? "#4CAF50" : "#f44336"
+              }`,
+            }}
+          >
+            {statusMessage}
+          </div>
+        )}
       </div>
     </section>
   );
