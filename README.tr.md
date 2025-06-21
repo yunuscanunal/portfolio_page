@@ -19,14 +19,14 @@ _Projelerinizi ve becerilerinizi güvenli bir şekilde sergileyin._
 
 ## 📑 İçindekiler
 
-- [Genel Bakış](#genel-bakış)
-- [Neden Portfolio-Page?](#neden-portfolio-page)
-- [Teknolojiler](#teknolojiler)
-- [Özellikler](#özellikler)
-- [Kurulum](#kurulum)
-- [API Uç Noktaları](#api-uç-noktaları)
-- [Docker Kullanımı](#docker-kullanımı)
-- [Lisans](#lisans)
+- [Genel Bakış](#-genel-bakış)
+- [Neden Portfolio-Page?](#-neden-portfolio-page)
+- [Teknolojiler](#-teknolojiler)
+- [Özellikler](#-özellikler)
+- [Kurulum](#-kurulum)
+- [API Uç Noktaları](#-api-uç-noktaları)
+- [Docker Kullanımı](#-docker-kullanımı)
+- [Lisans](#-lisans)
 
 ---
 
