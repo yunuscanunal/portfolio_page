@@ -12,19 +12,39 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: portfolio_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/portfolio_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: "temurin"
-      - name: Give Maven Wrapper execute permission
+
+      - name: Make Maven wrapper executable
         run: chmod +x mvnw
-      - name: Build with Maven
+
+      - name: Build with Maven (run tests)
         run: ./mvnw clean package -DskipTests=false
-      - name: Run Tests
-        run: ./mvnw test
 
   build-and-test-frontend:
     runs-on: ubuntu-latest
@@ -33,37 +53,58 @@ jobs:
         working-directory: ./frontend
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
+
       - name: Install dependencies
         run: npm ci
-      - name: Build
+
+      - name: Build frontend
         run: npm run build
-      # TEST ADIMI GEÇİCİ OLARAK DEVRE DIŞI BIRAKILDI
+
       - name: Run tests (ignore failures)
-        run: |
-          npm test -- --watchAll=false || true
+        run: npm test -- --watchAll=false
+        continue-on-error: true
 
   build:
     runs-on: ubuntu-latest
+    needs: [build-and-test-backend, build-and-test-frontend]
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: portfolio_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      DB_URL: ${{ secrets.DB_URL }}
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_URL: jdbc:postgresql://localhost:5432/portfolio_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
     defaults:
       run:
         working-directory: ./backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Give Maven Wrapper execute permission
+
+      - name: Make Maven wrapper executable
         run: chmod +x mvnw
-      - name: Build with Maven
+
+      - name: Build JAR without tests
         run: ./mvnw clean package -DskipTests=true
+
       - name: Run JAR
         run: java -jar target/*.jar
