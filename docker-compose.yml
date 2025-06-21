@@ -1,18 +1,21 @@
 version: "3.8"
+
 services:
   db:
     image: postgres:15
+    container_name: portfolio_db
     environment:
       POSTGRES_DB: portfolio_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin1234
-    ports:
-      - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+    container_name: portfolio_backend
     environment:
       ADMIN_USERNAME: admin
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/portfolio_db
@@ -23,15 +26,19 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+    container_name: portfolio_frontend
     environment:
       - REACT_APP_API_URL=http://localhost:8080
     ports:
-      - "3000:80"
+      - "80:80"
     depends_on:
       - backend
+    restart: unless-stopped
 
 volumes:
   db_data:

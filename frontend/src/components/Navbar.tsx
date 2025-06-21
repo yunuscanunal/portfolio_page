@@ -61,7 +61,7 @@ const CustomNavbar: React.FC = () => {
             </Nav.Link>
             {/* CV Opener */}
             <Nav.Link
-              href="https://docs.google.com/document/d/13Md9lSQV3P9MTZjcAfLP6y8rVYcYP-9l/edit?usp=sharing&ouid=112358104379626606282&rtpof=true&sd=true"
+              href="https://drive.google.com/file/d/1ZWNNGcHXQJcId-KHpNsLewHW_qlcZzPf/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="cv-link"
