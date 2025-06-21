@@ -19,14 +19,14 @@ _Your Projects. Your Skills. All in One Place._
 
 ## 📑 Table of Contents
 
-- [Overview](#overview)
-- [Why Portfolio-Page?](#why-portfolio-page)
-- [Tech Stack](#tech-stack)
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [API Endpoints](#api-endpoints)
-- [Docker Usage](#docker-usage)
-- [License](#license)
+- [Overview](#-overview)
+- [Why Portfolio-Page?](#-why-portfolio-page)
+- [Tech Stack](#-tech-stack)
+- [Features](#-features)
+- [Getting Started](#-getting-started)
+- [API Endpoints](#-api-endpoints)
+- [Docker Usage](#-docker-usage)
+- [License](#-license)
 
 ---
 
