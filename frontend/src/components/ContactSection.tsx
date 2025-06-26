@@ -78,6 +78,15 @@ const ContactSection: React.FC = () => {
           from you!
         </p>
         <form className="contact-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+
           <button type="submit" className="btn submit-btn">
             Send Message
           </button>
