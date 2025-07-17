@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
-import { ReactComponent as Logo } from "../assets/logo.svg";
+import { ReactComponent as Logo } from "../assets/portfolioIcon.svg";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { TbFileCv } from "react-icons/tb";
 import "./Navbar.css";
