@@ -85,8 +85,23 @@ const ContactSection: React.FC = () => {
             value={formData.name}
             onChange={handleChange}
             required
+          />{" "}
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
           />
-
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            rows={5}
+            value={formData.message}
+            onChange={handleChange}
+            required
+          />
           <button type="submit" className="btn submit-btn">
             Send Message
           </button>
