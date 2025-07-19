@@ -27,15 +27,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf().disable()
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/projects/**").hasAuthority("ROLE_ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/api/projects/**").hasAuthority("ROLE_ADMIN");
-                    auth.requestMatchers(HttpMethod.DELETE, "/api/projects/**").hasAuthority("ROLE_ADMIN");
+                    auth.requestMatchers("/api/auth/**").permitAll();
                     if ("dev".equals(activeProfile) || "development".equals(activeProfile)) {
                         auth.requestMatchers(
                                 "/swagger-ui/**",
@@ -43,6 +39,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll();
                     }
+                    auth.requestMatchers("/api/projects/**").hasAuthority("ROLE_ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -52,13 +49,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        if ("prod".equals(activeProfile) || "production".equals(activeProfile)) {
-            configuration.setAllowedOriginPatterns(List.of("http://yunuscanunal.me", "https://yunuscanunal.me"));
-        } else {
-            configuration.setAllowedOriginPatterns(List.of("*") );
-        }
+        configuration.setAllowedOrigins(List.of("http://yunuscanunal.me", "https://yunuscanunal.me")); 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "x-auth-token"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
