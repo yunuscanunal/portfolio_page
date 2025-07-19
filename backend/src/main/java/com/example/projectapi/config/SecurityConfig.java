@@ -53,7 +53,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         if ("prod".equals(activeProfile) || "production".equals(activeProfile)) {
-            configuration.setAllowedOriginPatterns(List.of("https://senin-domainin.com"));
+            configuration.setAllowedOriginPatterns(List.of("http://yunuscanunal.me", "https://yunuscanunal.me"));
         } else {
             configuration.setAllowedOriginPatterns(List.of("*") );
         }
