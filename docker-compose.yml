@@ -18,25 +18,24 @@ services:
     container_name: portfolio_backend
     environment:
       ADMIN_USERNAME: ${ADMIN_USERNAME}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/portfolio_db
-      SPRING_DATASOURCE_USERNAME: postgres
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
     depends_on:
       - db
     restart: unless-stopped
 
   frontend:
-    # build: direktifi KALDIRILDI
-    image: yunuscanunal/portfolio-frontend:latest # İmajın Docker Hub'dan çekileceği belirtildi
+    build: ./frontend
     container_name: portfolio_frontend
     environment:
-      # API adresini de doğru, public adresle güncelledik
-      - REACT_APP_API_URL=http://yunuscanunal.me:8080
+      - REACT_APP_API_URL=/
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
     restart: unless-stopped

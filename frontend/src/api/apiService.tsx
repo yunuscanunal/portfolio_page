@@ -1,7 +1,8 @@
 // src/api/apiService.ts
+const API_BASE_URL = process.env.REACT_APP_API_URL || "";
 
 export const authFetch = async (
-  url: string,
+  endpoint: string,
   options: RequestInit = {}
 ): Promise<Response> => {
   const token = localStorage.getItem("token");
@@ -12,7 +13,7 @@ export const authFetch = async (
     ...(options.headers || {}),
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers,
   });

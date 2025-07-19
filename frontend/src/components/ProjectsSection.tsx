@@ -16,7 +16,7 @@ const ProjectsSection: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: number]: string }>({});
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/projects")
+    fetch("/api/projects")
       .then((res) => res.json())
       .then((data) => {
         // Gelen veriye sahte alanları ekleyerek dönüyoruz

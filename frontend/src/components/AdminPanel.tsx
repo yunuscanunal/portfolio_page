@@ -35,7 +35,7 @@ const AdminPanel: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await authFetch("http://localhost:8080/api/projects", {
+      const res = await authFetch("/api/projects", {
         method: "GET",
       });
       if (res.ok) {
@@ -88,17 +88,14 @@ const AdminPanel: React.FC = () => {
       let response;
       if (editId) {
         // Güncelle
-        response = await authFetch(
-          `http://localhost:8080/api/projects/${editId}`,
-          {
-            method: "PUT",
-            body: JSON.stringify(projectData),
-          }
-        );
+        response = await authFetch(`/api/projects/${editId}`, {
+          method: "PUT",
+          body: JSON.stringify(projectData),
+        });
       } else {
         // Ekle
         const { id, ...projectDataWithoutId } = projectData;
-        response = await authFetch("http://localhost:8080/api/projects", {
+        response = await authFetch("/api/projects", {
           method: "POST",
           body: JSON.stringify(projectDataWithoutId),
         });
@@ -131,7 +128,7 @@ const AdminPanel: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await authFetch(`http://localhost:8080/api/projects/${id}`, {
+      const res = await authFetch(`/api/projects/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
