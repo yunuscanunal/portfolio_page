@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FaBriefcase, FaCalendarAlt } from "react-icons/fa";
 import { useGlobal } from "../context/GlobalContext";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/config";
 
 // Backend'den gelen veri tipi
 interface ExperienceData {
@@ -19,8 +20,7 @@ const Experience = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/experiences")
-      .then((res) => res.json())
+    fetch(`${API_BASE_URL}/api/experiences`) // <-- Güncellendi      .then((res) => res.json())
       .then((data) => {
         setExperiences(data);
         setLoading(false);

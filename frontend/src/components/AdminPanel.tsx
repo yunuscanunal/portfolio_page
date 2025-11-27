@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaBriefcase } from "react-icons/fa";
+import { API_BASE_URL } from "../api/config";
 
 // Tipler
 interface Project {
@@ -49,8 +50,7 @@ const AdminPanel: React.FC = () => {
     techStack: "",
   });
 
-  const API_BASE = "http://localhost:8080/api";
-
+  const API_URL = `${API_BASE_URL}/api`; // <-- YENİSİ (Base URL)
   useEffect(() => {
     if (!loading) {
       if (!isAuthenticated) navigate("/admin/login");
@@ -62,8 +62,8 @@ const AdminPanel: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const pRes = await fetch(`${API_BASE}/projects`);
-      const eRes = await fetch(`${API_BASE}/experiences`);
+      const pRes = await fetch(`${API_URL}/projects`);
+      const eRes = await fetch(`${API_URL}/experiences`);
       if (pRes.ok) setProjects(await pRes.json());
       if (eRes.ok) setExperiences(await eRes.json());
     } catch (err) {
@@ -80,7 +80,7 @@ const AdminPanel: React.FC = () => {
       techStack: projectForm.techStack.split(",").map((t) => t.trim()),
     };
 
-    await fetch(`${API_BASE}/projects`, {
+    await fetch(`${API_URL}/projects`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +107,7 @@ const AdminPanel: React.FC = () => {
       techStack: expForm.techStack.split(",").map((t) => t.trim()),
     };
 
-    await fetch(`${API_BASE}/experiences`, {
+    await fetch(`${API_URL}/experiences`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -129,7 +129,7 @@ const AdminPanel: React.FC = () => {
   const handleDelete = async (type: "projects" | "experiences", id: number) => {
     if (!window.confirm("Silmek istediğine emin misin?")) return;
     const token = localStorage.getItem("token");
-    await fetch(`${API_BASE}/${type}/${id}`, {
+    await fetch(`${API_URL}/${type}/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
