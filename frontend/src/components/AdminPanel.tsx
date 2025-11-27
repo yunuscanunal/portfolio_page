@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { FaTrash, FaBriefcase } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa"; // FaBriefcase kaldırıldı
 import { API_BASE_URL } from "../api/config";
 
 // Tipler
@@ -50,17 +50,10 @@ const AdminPanel: React.FC = () => {
     techStack: "",
   });
 
-  const API_URL = `${API_BASE_URL}/api`; // <-- YENİSİ (Base URL)
-  useEffect(() => {
-    if (!loading) {
-      if (!isAuthenticated) navigate("/admin/login");
-      else {
-        fetchData();
-      }
-    }
-  }, [isAuthenticated, loading, navigate]);
+  const API_URL = `${API_BASE_URL}/api`;
 
-  const fetchData = async () => {
+  // DÜZELTME: fetchData yukarı taşındı ve useCallback ile sarmalandı
+  const fetchData = useCallback(async () => {
     try {
       const pRes = await fetch(`${API_URL}/projects`);
       const eRes = await fetch(`${API_URL}/experiences`);
@@ -69,7 +62,17 @@ const AdminPanel: React.FC = () => {
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [API_URL]);
+
+  // DÜZELTME: useEffect artık fetchData'yı güvenle kullanıyor
+  useEffect(() => {
+    if (!loading) {
+      if (!isAuthenticated) navigate("/admin/login");
+      else {
+        fetchData();
+      }
+    }
+  }, [isAuthenticated, loading, navigate, fetchData]);
 
   // Generic Handler
   const handleProjectSubmit = async (e: React.FormEvent) => {
