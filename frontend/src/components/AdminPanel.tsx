@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { FaTrash } from "react-icons/fa"; // FaBriefcase kaldırıldı
+import { FaTrash } from "react-icons/fa";
 import { API_BASE_URL } from "../api/config";
 
+const API_URL = `${API_BASE_URL}/api`;
 // Tipler
 interface Project {
   id: number;
@@ -50,29 +51,36 @@ const AdminPanel: React.FC = () => {
     techStack: "",
   });
 
-  const API_URL = `${API_BASE_URL}/api`;
-
-  // DÜZELTME: fetchData yukarı taşındı ve useCallback ile sarmalandı
-  const fetchData = useCallback(async () => {
-    try {
-      const pRes = await fetch(`${API_URL}/projects`);
-      const eRes = await fetch(`${API_URL}/experiences`);
-      if (pRes.ok) setProjects(await pRes.json());
-      if (eRes.ok) setExperiences(await eRes.json());
-    } catch (err) {
-      console.error(err);
+useEffect(() => {
+  if (!loading) {
+    if (!isAuthenticated) {
+      navigate("/admin/login");
+    } else {
+      const fetchData = async () => {
+        try {
+          const pRes = await fetch(`${API_URL}/projects`);
+          const eRes = await fetch(`${API_URL}/experiences`);
+          if (pRes.ok) setProjects(await pRes.json());
+          if (eRes.ok) setExperiences(await eRes.json());
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchData();
     }
-  }, [API_URL]);
+  }
+}, [isAuthenticated, loading, navigate]);
 
-  // DÜZELTME: useEffect artık fetchData'yı güvenle kullanıyor
-  useEffect(() => {
-    if (!loading) {
-      if (!isAuthenticated) navigate("/admin/login");
-      else {
-        fetchData();
-      }
-    }
-  }, [isAuthenticated, loading, navigate, fetchData]);
+const fetchData = async () => {
+  try {
+    const pRes = await fetch(`${API_URL}/projects`);
+    const eRes = await fetch(`${API_URL}/experiences`);
+    if (pRes.ok) setProjects(await pRes.json());
+    if (eRes.ok) setExperiences(await eRes.json());
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   // Generic Handler
   const handleProjectSubmit = async (e: React.FormEvent) => {

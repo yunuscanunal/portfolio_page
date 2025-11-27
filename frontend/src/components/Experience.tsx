@@ -20,7 +20,8 @@ const Experience = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/experiences`) // <-- Güncellendi      .then((res) => res.json())
+    fetch(`${API_BASE_URL}/api/experiences`)
+      .then((res) => res.json())
       .then((data) => {
         setExperiences(data);
         setLoading(false);
