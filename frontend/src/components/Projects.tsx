@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import { useGlobal } from "../context/GlobalContext";
+import { API_BASE_URL } from "../api/config";
 
 interface Project {
   title: string;
@@ -17,8 +18,7 @@ const ProjectsSection = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Backend'den projeleri çek
-    fetch("http://localhost:8080/api/projects")
+    fetch(`${API_BASE_URL}/api/projects`)
       .then((res) => res.json())
       .then((data) => {
         setProjects(data);
