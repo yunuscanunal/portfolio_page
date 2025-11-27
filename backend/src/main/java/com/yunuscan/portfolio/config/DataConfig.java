@@ -25,8 +25,7 @@ public class DataConfig {
             URI uri = new URI(dbUrl);
             String username = uri.getUserInfo().split(":")[0];
             String password = uri.getUserInfo().split(":")[1];
-            String jdbcUrl = "jdbc:postgresql://" + uri.getHost() + ':' + uri.getPort() + uri.getPath();
-
+String jdbcUrl = "jdbc:postgresql://" + uri.getHost() + ':' + uri.getPort() + uri.getPath() + "?sslmode=require";
             config.setJdbcUrl(jdbcUrl);
             config.setUsername(username);
             config.setPassword(password);
