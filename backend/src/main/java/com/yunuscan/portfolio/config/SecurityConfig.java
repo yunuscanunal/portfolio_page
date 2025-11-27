@@ -1,6 +1,5 @@
 package com.yunuscan.portfolio.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,9 +25,6 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
-    
-    @Value("${cors.allowed-origins}")
-    private String allowedOrigins;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
@@ -65,13 +61,31 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         
-        // Virgülle ayrılmış string'i listeye çevir
-        List<String> origins = Arrays.asList(allowedOrigins.split(","));
-        config.setAllowedOrigins(origins);
+        // Environment variable'ı oku
+        String originsEnv = System.getenv("ALLOWED_ORIGINS");
+        System.out.println("==========================================");
+        System.out.println("🔍 ALLOWED_ORIGINS from environment: " + originsEnv);
+        System.out.println("==========================================");
         
+        List<String> origins;
+        if (originsEnv != null && !originsEnv.isEmpty()) {
+            origins = Arrays.asList(originsEnv.split(","));
+        } else {
+            origins = List.of(
+                "https://portfolio-page-navy-two.vercel.app",
+                "http://localhost:5173", 
+                "http://localhost:3000"
+            );
+        }
+        
+        System.out.println("🔍 Final CORS origins list: " + origins);
+        System.out.println("==========================================");
+        
+        config.setAllowedOrigins(origins);
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
