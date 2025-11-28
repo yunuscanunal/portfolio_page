@@ -1,9 +1,11 @@
 package com.yunuscan.portfolio.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,8 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -26,6 +28,10 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
+    // ALLOWED_ORIGINS Heroku config var -> Spring property
+    @Value("${ALLOWED_ORIGINS:https://portfolio-page-navy-two.vercel.app}")
+    private String allowedOriginsEnv;
+
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
@@ -34,19 +40,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            // Burada sadece "CORS var" de, detayları CorsConfigurationSource bean'inden okusun
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/projects/**", HttpMethod.GET.name())).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/experiences/**", HttpMethod.GET.name())).permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/experiences/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -57,36 +65,28 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    // 🔥 Asıl önemli kısım burası: Spring'in kullandığı global CORS config bean'i
     @Bean
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        
-        // Environment variable'ı oku
-        String originsEnv = System.getenv("ALLOWED_ORIGINS");
+
         System.out.println("==========================================");
-        System.out.println("🔍 ALLOWED_ORIGINS from environment: " + originsEnv);
-        System.out.println("==========================================");
-        
-        List<String> origins;
-        if (originsEnv != null && !originsEnv.isEmpty()) {
-            origins = Arrays.asList(originsEnv.split(","));
-        } else {
-            origins = List.of(
-                "https://portfolio-page-navy-two.vercel.app",
-                "http://localhost:5173", 
-                "http://localhost:3000"
-            );
-        }
-        
+        System.out.println("🔍 ALLOWED_ORIGINS from environment (via @Value): " + allowedOriginsEnv);
+
+        List<String> origins = Arrays.stream(allowedOriginsEnv.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+
         System.out.println("🔍 Final CORS origins list: " + origins);
         System.out.println("==========================================");
-        
+
         config.setAllowedOrigins(origins);
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
-        
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
