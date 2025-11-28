@@ -19,7 +19,6 @@ public class ExperienceController {
 
     @GetMapping
     public List<Experience> getAllExperiences() {
-        // İsterseniz burada tarihe göre sıralama (sort) yapabilirsiniz
         return experienceRepository.findAll();
     }
 
@@ -27,23 +26,25 @@ public class ExperienceController {
     public Experience addExperience(@RequestBody Experience experience) {
         return experienceRepository.save(experience);
     }
+
+    // EKLENMESİ GEREKEN UPDATE KISMI BURASI
     @PutMapping("/{id}")
     public ResponseEntity<Experience> updateExperience(@PathVariable Long id, @RequestBody Experience experienceDetails) {
         return experienceRepository.findById(id)
-        .map(experience -> {
-            experience.setCompany(experienceDetails.getCompany());
-            experience.setRole(experienceDetails.getRole());
-            experience.setPeriod(experienceDetails.getPeriod());
-            experience.setDescription(experienceDetails.getDescription());
-            experience.setTechStack(experienceDetails.getTechStack());
-            return ResponseEntity.ok(experienceRepository.save(experience));
-        })
-        .orElse(ResponseEntity.notFound().build());
+                .map(experience -> {
+                    experience.setCompany(experienceDetails.getCompany());
+                    experience.setRole(experienceDetails.getRole());
+                    experience.setPeriod(experienceDetails.getPeriod());
+                    experience.setDescription(experienceDetails.getDescription());
+                    experience.setTechStack(experienceDetails.getTechStack());
+                    return ResponseEntity.ok(experienceRepository.save(experience));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteExperience(@PathVariable Long id) {
         experienceRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-    
 }
