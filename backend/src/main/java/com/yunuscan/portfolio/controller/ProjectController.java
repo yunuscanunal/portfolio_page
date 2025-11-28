@@ -26,18 +26,20 @@ public class ProjectController {
     public Project addProject(@RequestBody Project project) {
         return projectRepository.save(project);
     }
+
+    // EKLENMESİ GEREKEN UPDATE KISMI BURASI
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@PathVariable Long id, @RequestBody Project projectDetails) {
         return projectRepository.findById(id)
-        .map(project -> {
-            project.setTitle(projectDetails.getTitle());
-            project.setDescription(projectDetails.getDescription());
-            project.setTechStack(projectDetails.getTechStack());
-            project.setGithubUrl(projectDetails.getGithubUrl());
-            project.setDemoUrl(projectDetails.getDemoUrl());
-            return ResponseEntity.ok(projectRepository.save(project));
-        })
-        .orElse(ResponseEntity.notFound().build());
+                .map(project -> {
+                    project.setTitle(projectDetails.getTitle());
+                    project.setDescription(projectDetails.getDescription());
+                    project.setTechStack(projectDetails.getTechStack());
+                    project.setGithubUrl(projectDetails.getGithubUrl());
+                    project.setDemoUrl(projectDetails.getDemoUrl());
+                    return ResponseEntity.ok(projectRepository.save(project));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
