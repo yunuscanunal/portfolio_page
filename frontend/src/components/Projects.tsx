@@ -68,8 +68,50 @@ const ProjectsSection = () => {
         </motion.h2>
 
         {loading ? (
-          <div className="text-center font-mono text-gray-500">
-            Scanning Database...
+          // Skeleton Loading
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className={`h-64 rounded-xl border animate-pulse ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10"
+                    : "bg-gray-200 border-gray-300"
+                }`}
+              >
+                <div className="h-full p-6 flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div
+                      className={`h-6 w-1/2 rounded ${
+                        theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                      }`}
+                    />
+                    <div
+                      className={`h-4 w-full rounded ${
+                        theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                      }`}
+                    />
+                    <div
+                      className={`h-4 w-3/4 rounded ${
+                        theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                      }`}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <div
+                      className={`h-6 w-16 rounded ${
+                        theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                      }`}
+                    />
+                    <div
+                      className={`h-6 w-16 rounded ${
+                        theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                      }`}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">

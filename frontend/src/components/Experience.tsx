@@ -160,9 +160,65 @@ const Experience = () => {
             </motion.div>
           ))}
 
-          {!loading && experiences.length === 0 && (
-            <div className="pl-12 text-gray-500 font-mono">
-              No experience records found.
+          {loading && (
+            // Skeleton Loading for Experience
+            <div className="space-y-12 pl-8 md:pl-12">
+              {[1, 2].map((i) => (
+                <div key={i} className="relative animate-pulse">
+                  {/* Dot Skeleton */}
+                  <div
+                    className={`absolute -left-[41px] md:-left-[57px] top-0 w-4 h-4 rounded-full ${
+                      theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                    }`}
+                  />
+
+                  {/* Content Skeleton */}
+                  <div
+                    className={`p-6 rounded-lg border ${
+                      theme === "dark"
+                        ? "bg-white/5 border-white/10"
+                        : "bg-gray-100 border-gray-200"
+                    }`}
+                  >
+                    <div className="flex justify-between mb-4">
+                      <div
+                        className={`h-6 w-1/3 rounded ${
+                          theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                        }`}
+                      />
+                      <div
+                        className={`h-6 w-1/4 rounded ${
+                          theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                        }`}
+                      />
+                    </div>
+                    <div className="space-y-2 mb-4">
+                      <div
+                        className={`h-4 w-full rounded ${
+                          theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                        }`}
+                      />
+                      <div
+                        className={`h-4 w-5/6 rounded ${
+                          theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                        }`}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <div
+                        className={`h-6 w-16 rounded ${
+                          theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                        }`}
+                      />
+                      <div
+                        className={`h-6 w-16 rounded ${
+                          theme === "dark" ? "bg-white/10" : "bg-gray-300"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
