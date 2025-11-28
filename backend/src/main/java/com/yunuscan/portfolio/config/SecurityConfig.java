@@ -1,8 +1,10 @@
 package com.yunuscan.portfolio.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -16,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,13 +41,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .cors(Customizer.withDefaults()) // CORS ayarlarını bean'den al
+            // CORS'u Spring Security seviyesinde kapatıyoruz çünkü aşağıda özel filtre ile yöneteceğiz
+            .cors(AbstractHttpConfigurer::disable) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                // OPTIONS isteklerine her zaman izin ver (Preflight check için kritik)
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/experiences/**").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // OPTIONS her zaman serbest
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -64,26 +66,30 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    // 🔥 KESİN ÇÖZÜM: En Yüksek Öncelikli CORS Filtresi
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Environment variable'ı parse et
+        // Environment variable'ı temizleyip listeye çevir
         List<String> origins = Arrays.stream(allowedOriginsEnv.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .toList();
         
+        System.out.println("🔍 CORS Origins Configured: " + origins);
+
         config.setAllowedOrigins(origins);
-        // Tüm headerlara izin ver
-        config.setAllowedHeaders(List.of("*"));
-        // Tüm metodlara (özellikle PUT ve DELETE'e) izin ver
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"));
+        config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
         config.setAllowCredentials(true);
-        config.setMaxAge(3600L);
+        config.setMaxAge(3600L); // 1 saatlik preflight cache
         
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-        return source;
+        
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // Filtre zincirinin en başına koyar
+        return bean;
     }
 }
