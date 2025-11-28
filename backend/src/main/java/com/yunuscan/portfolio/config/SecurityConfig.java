@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
-    // ALLOWED_ORIGINS Heroku config var -> Spring property
+    // Heroku'daki ALLOWED_ORIGINS config var'ını property olarak okuyoruz
     @Value("${ALLOWED_ORIGINS:https://portfolio-page-navy-two.vercel.app}")
     private String allowedOriginsEnv;
 
@@ -40,7 +40,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            // Burada sadece "CORS var" de, detayları CorsConfigurationSource bean'inden okusun
+            // CORS yapılandırmasını CorsConfigurationSource bean'inden al
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
@@ -65,7 +65,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // 🔥 Asıl önemli kısım burası: Spring'in kullandığı global CORS config bean'i
+    // 🔥 Global CORS config
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
