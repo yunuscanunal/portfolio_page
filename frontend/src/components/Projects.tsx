@@ -123,6 +123,8 @@ const ProjectsSection = () => {
                 desc={p.description}
                 tech={p.techStack}
                 theme={theme}
+                githubUrl={p.githubUrl}
+                demoUrl={p.demoUrl}
               />
             ))}
 

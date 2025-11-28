@@ -1,4 +1,3 @@
-// src/components/ProjectCard.tsx
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
@@ -6,10 +5,19 @@ interface ProjectProps {
   title: string;
   desc: string;
   tech: string[];
-  theme: string; // Theme prop'u ekledik
+  theme: string;
+  githubUrl?: string; // Linkleri opsiyonel olarak ekledik
+  demoUrl?: string;
 }
 
-const ProjectCard = ({ title, desc, tech, theme }: ProjectProps) => {
+const ProjectCard = ({
+  title,
+  desc,
+  tech,
+  theme,
+  githubUrl,
+  demoUrl,
+}: ProjectProps) => {
   return (
     <motion.div whileHover={{ y: -10 }} className="relative group">
       {/* Arka Plan Parlaması */}
@@ -48,16 +56,33 @@ const ProjectCard = ({ title, desc, tech, theme }: ProjectProps) => {
                 theme === "dark" ? "text-gray-400" : "text-gray-500"
               }`}
             >
-              <FaGithub
-                className={`cursor-pointer text-xl ${
-                  theme === "dark" ? "hover:text-white" : "hover:text-black"
-                }`}
-              />
-              <FaExternalLinkAlt
-                className={`cursor-pointer text-lg ${
-                  theme === "dark" ? "hover:text-white" : "hover:text-black"
-                }`}
-              />
+              {/* GitHub Linki */}
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`transition-colors ${
+                    theme === "dark" ? "hover:text-white" : "hover:text-black"
+                  }`}
+                >
+                  <FaGithub className="text-xl" />
+                </a>
+              )}
+
+              {/* Demo Linki */}
+              {demoUrl && (
+                <a
+                  href={demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`transition-colors ${
+                    theme === "dark" ? "hover:text-white" : "hover:text-black"
+                  }`}
+                >
+                  <FaExternalLinkAlt className="text-lg" />
+                </a>
+              )}
             </div>
           </div>
           <p
