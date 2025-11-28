@@ -28,7 +28,6 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
-    // Heroku'daki ALLOWED_ORIGINS config var'ını property olarak okuyoruz
     @Value("${ALLOWED_ORIGINS:https://portfolio-page-navy-two.vercel.app}")
     private String allowedOriginsEnv;
 
@@ -40,21 +39,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            // CORS yapılandırmasını CorsConfigurationSource bean'inden al
-            .cors(Customizer.withDefaults())
+            .cors(Customizer.withDefaults()) // CORS ayarlarını bean'den al
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                // OPTIONS isteklerine her zaman izin ver (Preflight check için kritik)
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/experiences/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -65,28 +64,24 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // 🔥 Global CORS config
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
-        System.out.println("==========================================");
-        System.out.println("🔍 ALLOWED_ORIGINS from environment (via @Value): " + allowedOriginsEnv);
-
+        
+        // Environment variable'ı parse et
         List<String> origins = Arrays.stream(allowedOriginsEnv.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .toList();
-
-        System.out.println("🔍 Final CORS origins list: " + origins);
-        System.out.println("==========================================");
-
+        
         config.setAllowedOrigins(origins);
+        // Tüm headerlara izin ver
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Tüm metodlara (özellikle PUT ve DELETE'e) izin ver
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
-
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
