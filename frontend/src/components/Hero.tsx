@@ -174,6 +174,28 @@ const Hero = () => {
       `}
       />
       <div className="absolute w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+          className={`w-6 h-10 border-2 rounded-full flex justify-center pt-2 ${
+            theme === "dark" ? "border-cyber-primary" : "border-blue-600"
+          }`}
+        >
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className={`w-1 h-2 rounded-full ${
+              theme === "dark" ? "bg-cyber-primary" : "bg-blue-600"
+            }`}
+          />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

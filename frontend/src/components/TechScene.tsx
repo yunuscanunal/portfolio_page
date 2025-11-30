@@ -32,7 +32,9 @@ const AnimatedSphere = () => {
 const TechScene = () => {
   return (
     <div className="w-full h-[400px] md:h-[500px] cursor-grab active:cursor-grabbing">
-      <Canvas>
+      <Canvas dpr={[1, 2]} performance={{ min: 0.5 }}>
+        {" "}
+        {/* DPR limit + performance mode */}
         <ambientLight intensity={0.5} />
         <directionalLight
           position={[10, 10, 5]}
@@ -45,7 +47,13 @@ const TechScene = () => {
           color="#00f3ff"
         />
         <AnimatedSphere />
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+        <OrbitControls
+          enableZoom={false}
+          autoRotate
+          autoRotateSpeed={0.5}
+          enableDamping={true}
+          dampingFactor={0.05}
+        />
       </Canvas>
     </div>
   );
