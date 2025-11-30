@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import TechScene from "./TechScene";
+import { lazy, Suspense } from "react";
 import { useGlobal } from "../context/GlobalContext";
+
+const TechScene = lazy(() => import("./TechScene"));
 
 const About = () => {
   const { t, theme } = useGlobal();
-
-  // Renkleri statik array'den atayalım çünkü translations dosyasında sadece text var
   const colors = ["bg-cyber-primary", "bg-cyber-secondary", "bg-cyber-accent"];
 
   return (
@@ -17,7 +17,6 @@ const About = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-12">
-          {/* Sol Taraf: 3D Sahne */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -25,13 +24,21 @@ const About = () => {
             viewport={{ once: true }}
             className="w-full md:w-1/2 flex justify-center relative"
           >
-            {/* Glow efekti (Sadece Dark Mode'da görünsün) */}
             {theme === "dark" && (
               <div className="absolute inset-0 bg-cyber-primary/10 blur-[100px] rounded-full pointer-events-none" />
             )}
-            <TechScene />
-          </motion.div>
 
+            {/* ✅ Lazy load + Fallback */}
+            <Suspense
+              fallback={
+                <div className="w-full h-[400px] flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-primary"></div>
+                </div>
+              }
+            >
+              <TechScene />
+            </Suspense>
+          </motion.div>
           {/* Sağ Taraf: İçerik */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}

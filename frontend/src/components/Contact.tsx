@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useGlobal } from "../context/GlobalContext";
+import { API_BASE_URL } from "../api/config";
 
 const Contact = () => {
   const { t, theme } = useGlobal();
@@ -86,19 +87,28 @@ const Contact = () => {
       return;
     }
 
-    // Simüle edilmiş API isteği (Buraya kendi endpoint'ini bağlayabilirsin)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 saniye bekle
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "", honey: "" });
-      // Başarılı olduktan sonra zamanı sıfırla ki tekrar hızlı gönderim yapılmasın
-      mountTime.current = Date.now();
-      setTimeout(() => {
-        setStatus("idle");
-      }, 5000); // 5 saniye sonra success mesajını kaldır
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "", honey: "" });
+        mountTime.current = Date.now();
+        setTimeout(() => setStatus("idle"), 5000);
+      } else {
+        throw new Error("Failed to send message");
+      }
     } catch (err) {
       setStatus("error");
-      setErrorMsg(err + "Network Error");
+      setErrorMsg(err + " Network error. Please try again.");
     }
   };
 
