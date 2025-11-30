@@ -161,6 +161,7 @@ const AdminPanel: React.FC = () => {
       }
     } catch (error) {
       console.error("Hata:", error);
+      setMsg("Sunucu bağlantı hatası");
     }
   };
 

@@ -93,9 +93,12 @@ const Contact = () => {
       setFormData({ name: "", email: "", message: "", honey: "" });
       // Başarılı olduktan sonra zamanı sıfırla ki tekrar hızlı gönderim yapılmasın
       mountTime.current = Date.now();
+      setTimeout(() => {
+        setStatus("idle");
+      }, 5000); // 5 saniye sonra success mesajını kaldır
     } catch (err) {
       setStatus("error");
-      setErrorMsg("Network Error");
+      setErrorMsg(err + "Network Error");
     }
   };
 

@@ -7,6 +7,16 @@ const Navbar = () => {
   const { t, theme, toggleTheme, language, toggleLanguage } = useGlobal();
   const [active, setActive] = useState("Home");
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // Mobil menü açıkken scroll kilitle
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset"; // Cleanup
+    };
+  }, [isOpen]);
   const [scrolled, setScrolled] = useState(false);
 
   // Navigasyon öğelerini çeviriden al

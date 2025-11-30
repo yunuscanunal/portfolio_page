@@ -87,6 +87,7 @@ const Experience = () => {
                     : "bg-white border-blue-600 group-hover:bg-blue-600"
                 }
               `}
+                style={{ maxWidth: "100%", overflowX: "hidden" }}
               />
 
               <div
