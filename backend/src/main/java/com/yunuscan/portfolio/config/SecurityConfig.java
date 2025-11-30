@@ -16,9 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.HeaderWriterFilter;
+import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
+import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -76,15 +83,39 @@ public class SecurityConfig {
         System.out.println("🔍 CORS Origins Configured: " + origins);
 
         config.setAllowedOrigins(origins);
-        config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setMaxAge(3600L); // 1 saat yeterli
         config.setAllowCredentials(true);
-        config.setMaxAge(300L); // 5 dakikalık preflight cache
         
         source.registerCorsConfiguration("/**", config);
         
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // Filtre zincirinin en başına koyar
         return bean;
+    }
+    @Bean
+    public FilterRegistrationBean<HeaderWriterFilter> cspHeaders() {
+        FilterRegistrationBean<HeaderWriterFilter> registrationBean = new FilterRegistrationBean<>();
+        
+        HeaderWriterFilter filter = new HeaderWriterFilter(
+            List.of(
+                new DelegatingRequestMatcherHeaderWriter(
+                    AnyRequestMatcher.INSTANCE,
+                    new HeaderWriter() {
+                        @Override
+                        public void writeHeaders(HttpServletRequest request, HttpServletResponse response) {
+                            response.setHeader("Content-Security-Policy", 
+                            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;");
+                            response.setHeader("X-Content-Type-Options", "nosniff");
+                            response.setHeader("X-Frame-Options", "DENY");
+                            response.setHeader("X-XSS-Protection", "1; mode=block");
+                        }
+                    }
+                )
+            )
+        );
+        registrationBean.setFilter(filter);
+        return registrationBean;
     }
 }

@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +18,15 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-
     @Value("${jwt.secret}")
     private String secretKey;
+
+    @PostConstruct
+    public void validateSecretKey() {
+        if (secretKey == null || secretKey.length() < 64) {
+            throw new IllegalStateException("JWT secret must be at least 64 characters!");
+        }
+    }
 
     @Value("${jwt.expiration}")
     private long jwtExpiration;
