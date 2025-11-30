@@ -20,12 +20,11 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
-
-    public String login(String username, String password) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Hatalı şifre");
+public String login(String username, String password) {
+    User user = userRepository.findByUsername(username)
+    .orElseThrow(() -> new RuntimeException("Geçersiz kimlik bilgileri"));
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+        throw new RuntimeException("Geçersiz kimlik bilgileri"); // AYNI MESAJ
         }
         return jwtUtil.generateToken(username);
     }
