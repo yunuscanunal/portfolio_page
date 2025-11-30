@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../hooks/useAuth";
 import { API_BASE_URL } from "../api/config";
 
 const AdminLogin: React.FC = () => {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const { login } = useAuth(); // Hook'tan login fonksiyonunu al
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +64,12 @@ const AdminLogin: React.FC = () => {
             className="w-full py-3 bg-cyber-primary/10 border border-cyber-primary text-cyber-primary hover:bg-cyber-primary hover:text-black transition-all font-bold rounded"
           >
             LOGIN
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="w-full py-3 bg-cyber-primary/10 border border-cyber-primary text-cyber-primary hover:bg-cyber-primary hover:text-black transition-all font-bold rounded"
+          >
+            HOME
           </button>
         </div>
       </div>

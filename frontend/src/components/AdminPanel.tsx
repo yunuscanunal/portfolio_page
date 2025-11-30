@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { FaTrash, FaEdit, FaTimes } from "react-icons/fa"; // FaEdit ve FaTimes eklendi
+import { FaTrash, FaEdit, FaTimes, FaHome } from "react-icons/fa"; // FaEdit ve FaTimes eklendi
 import { API_BASE_URL } from "../api/config";
 
 const API_URL = `${API_BASE_URL}/api`;
@@ -213,15 +213,26 @@ const AdminPanel: React.FC = () => {
     <div className="min-h-screen bg-cyber-black text-white p-8 font-sans">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-          <h1 className="text-3xl font-mono text-cyber-primary">
+          <h1 className="text-2xl md:text-3xl font-mono text-cyber-primary">
             ADMIN_DASHBOARD
           </h1>
-          <button
-            onClick={logout}
-            className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-500/10"
-          >
-            LOGOUT
-          </button>
+          <div className="flex gap-3 md:gap-4">
+            <button
+              onClick={() => navigate("/")} // SPA mantığına uygun yönlendirme
+              className="flex items-center gap-2 px-4 py-2 border border-cyber-primary text-cyber-primary rounded hover:bg-cyber-primary/10 transition-colors font-mono text-sm"
+            >
+              <FaHome />
+              <span className="hidden md:inline">GO HOME</span>{" "}
+            </button>
+
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-500/10 transition-colors font-mono text-sm"
+            >
+              <FaTimes />
+              <span className="hidden md:inline">LOGOUT</span>
+            </button>
+          </div>
         </div>
 
         {/* Tabs */}
