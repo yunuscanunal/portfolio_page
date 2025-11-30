@@ -1,21 +1,27 @@
 // src/hooks/useAuth.ts
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+};
 export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
+    if (token && !isTokenExpired(token)) {
+      return true;
     } else {
-      setIsAuthenticated(false);
+      localStorage.removeItem("token");
+      return false;
     }
-    setLoading(false);
-  }, []);
+  });
+  const [loading] = useState(false);
+  const navigate = useNavigate();
 
   const login = (token: string) => {
     localStorage.setItem("token", token);
