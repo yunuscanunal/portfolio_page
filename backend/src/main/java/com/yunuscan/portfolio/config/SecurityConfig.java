@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
-    @Value("${ALLOWED_ORIGINS:https://portfolio-page-navy-two.vercel.app}")
+    @Value("${cors.allowed-origins}")
     private String allowedOriginsEnv;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
