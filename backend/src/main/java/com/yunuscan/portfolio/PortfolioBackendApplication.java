@@ -8,10 +8,8 @@ public class PortfolioBackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PortfolioBackendApplication.class, args);
-        System.out.println("🚀 YUNUSCAN PORTFOLIO BACKEND - UPDATE V2 BAŞLATILIYOR 🚀"); // Bu satırı ekle
-        System.out.println("🚀 YUNUSCAN PORTFOLIO BACKEND - UPDATE V3 BAŞLATILIYOR 🚀"); // Bu satırı ekle
+        System.out.println("🚀 YUNUSCAN PORTFOLIO BACKEND - UPDATE V10 BAŞLATILIYOR 🚀"); // Bu satırı ekle
         System.out.println("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀");
-        System.out.println("🚀 YUNUSCAN PORTFOLIO BACKEND - UPDATE V5 BAŞLATILIYOR 🚀"); // Bu satırı ekle
         SpringApplication.run(PortfolioBackendApplication.class, args);
     }
 
