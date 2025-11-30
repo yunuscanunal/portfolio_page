@@ -14,14 +14,11 @@ public class DataConfig {
 
     @Bean
     public DataSource dataSource() throws URISyntaxException {
-        // Heroku'nun otomatik verdiği DATABASE_URL'i okuyoruz
         String dbUrl = System.getenv("DATABASE_URL");
         
         HikariConfig config = new HikariConfig();
 
         if (dbUrl != null && !dbUrl.isEmpty()) {
-            // --- HEROKU ORTAMI ---
-            // "postgres://user:pass@host:port/db" formatını JDBC formatına çeviriyoruz
             URI uri = new URI(dbUrl);
             String username = uri.getUserInfo().split(":")[0];
             String password = uri.getUserInfo().split(":")[1];
@@ -30,8 +27,6 @@ String jdbcUrl = "jdbc:postgresql://" + uri.getHost() + ':' + uri.getPort() + ur
             config.setUsername(username);
             config.setPassword(password);
         } else {
-            // --- LOCALHOST ORTAMI ---
-            // Eğer Heroku URL'i yoksa (bilgisayarında çalışıyorsa) burası çalışır
             config.setJdbcUrl("jdbc:postgresql://localhost:5433/portfolio_db");
             config.setUsername("postgres");
             config.setPassword("postgres");
