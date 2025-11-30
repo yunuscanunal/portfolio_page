@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,7 +40,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            // CORS'u Spring Security seviyesinde kapatıyoruz çünkü aşağıda özel filtre ile yöneteceğiz
             .cors(AbstractHttpConfigurer::disable) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
@@ -65,14 +63,11 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
-    // 🔥 KESİN ÇÖZÜM: En Yüksek Öncelikli CORS Filtresi
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         
-        // Environment variable'ı temizleyip listeye çevir
         List<String> origins = Arrays.stream(allowedOriginsEnv.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
@@ -84,7 +79,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
         config.setAllowCredentials(true);
-        config.setMaxAge(3600L); // 1 saatlik preflight cache
+        config.setMaxAge(300L); // 5 dakikalık preflight cache
         
         source.registerCorsConfiguration("/**", config);
         
