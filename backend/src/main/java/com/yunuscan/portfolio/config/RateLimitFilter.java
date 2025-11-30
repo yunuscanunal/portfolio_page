@@ -18,25 +18,41 @@ public class RateLimitFilter extends OncePerRequestFilter {
     private final Map<String, Bucket> cache = new ConcurrentHashMap<>();
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, 
-                                    HttpServletResponse response, 
-                                    FilterChain filterChain) throws ServletException, IOException {
-        String ip = request.getRemoteAddr();
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
+
+        // ✅ Gerçek IP adresini al (Proxy/Load Balancer arkasında çalışıyorsa)
+        String ip = getClientIP(request);
         Bucket bucket = resolveBucket(ip);
-        
+
         if (bucket.tryConsume(1)) {
             filterChain.doFilter(request, response);
         } else {
-            response.setStatus(429); // Too Many Requests
-            response.getWriter().write("{\"error\":\"Rate limit exceeded\"}");
+            response.setStatus(429);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\":\"Too many requests. Please try again later.\"}");
         }
     }
 
+    // ✅ Proxy arkasında gerçek IP'yi al
+    private String getClientIP(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+            return xForwardedFor.split(",")[0].trim();
+        }
+
+        String xRealIp = request.getHeader("X-Real-IP");
+        if (xRealIp != null && !xRealIp.isEmpty()) {
+            return xRealIp;
+        }
+
+        return request.getRemoteAddr();
+    }
+
     private Bucket resolveBucket(String ip) {
-        return cache.computeIfAbsent(ip, k -> 
-            Bucket.builder()
-                .addLimit(Bandwidth.simple(100, Duration.ofMinutes(1))) // 100 req/min
-                .build()
-        );
+        return cache.computeIfAbsent(ip, k -> Bucket.builder()
+                .addLimit(Bandwidth.simple(100, Duration.ofMinutes(1)))
+                .build());
     }
 }
