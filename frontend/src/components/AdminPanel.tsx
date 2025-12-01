@@ -60,9 +60,14 @@ const AdminPanel: React.FC = () => {
         navigate("/admin/login");
       } else {
         const loadData = async () => {
+          const token = localStorage.getItem("token");
           try {
-            const pRes = await fetch(`${API_URL}/projects`);
-            const eRes = await fetch(`${API_URL}/experiences`);
+            const pRes = await fetch(`${API_URL}/projects`, {
+              headers: { Authorization: `Bearer ${token}` }, // Header ekle
+            });
+            const eRes = await fetch(`${API_URL}/experiences`, {
+              headers: { Authorization: `Bearer ${token}` }, // Header ekle
+            });
             if (pRes.ok) setProjects(await pRes.json());
             if (eRes.ok) setExperiences(await eRes.json());
           } catch (err) {
