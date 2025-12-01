@@ -154,8 +154,6 @@ const Contact = () => {
             >
               {t.contact.desc}
             </p>
-
-            {/* Fallback Mail Linki */}
             <p
               className={`font-mono text-sm ${
                 theme === "dark" ? "text-gray-500" : "text-gray-500"
