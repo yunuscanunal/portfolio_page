@@ -5,7 +5,7 @@ import emailjs from "@emailjs/browser";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const Contact = () => {
-  const { t, theme } = useGlobal();
+  const { t, theme, language } = useGlobal();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -146,13 +146,36 @@ const Contact = () => {
             {t.contact.title}
           </h2>
 
-          <p
-            className={`mb-10 font-mono text-center leading-relaxed ${
-              theme === "dark" ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            {t.contact.desc}
-          </p>
+          <div className="mb-10 text-center">
+            <p
+              className={`font-mono leading-relaxed mb-4 ${
+                theme === "dark" ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              {t.contact.desc}
+            </p>
+
+            {/* Fallback Mail Linki */}
+            <p
+              className={`font-mono text-sm ${
+                theme === "dark" ? "text-gray-500" : "text-gray-500"
+              }`}
+            >
+              {language === "en"
+                ? "Or email directly:"
+                : "Veya doğrudan e-posta gönderin:"}{" "}
+              <a
+                href="mailto:yunuscanunal1@gmail.com"
+                className={`underline transition-colors ${
+                  theme === "dark"
+                    ? "text-cyber-primary hover:text-white"
+                    : "text-blue-600 hover:text-blue-800"
+                }`}
+              >
+                yunuscanunal1@gmail.com
+              </a>
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6 font-mono">
             {/* Honeypot Field (Gizli) */}
