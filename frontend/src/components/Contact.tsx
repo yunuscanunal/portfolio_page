@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useGlobal } from "../context/GlobalContext";
-import { API_BASE_URL } from "../api/config";
-
+import emailjs from "@emailjs/browser"; // Yeni eklenen import
 const Contact = () => {
   const { t, theme } = useGlobal();
 
@@ -11,25 +10,19 @@ const Contact = () => {
     name: "",
     email: "",
     message: "",
-    honey: "", // Honeypot field (kullanıcı görmez, botlar doldurur)
+    honey: "",
   });
 
-  // Status & Errors
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
-
-  // Security: Time Check
   const mountTime = useRef(0);
-
-  // Security: Email Regex (RFC 5322 Official Standard'a yakın katı kontrol)
   const emailRegex = new RegExp(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 
   useEffect(() => {
-    // Component mount edildiğinde zamanı başlat
     mountTime.current = Date.now();
   }, []);
 
@@ -40,20 +33,15 @@ const Contact = () => {
   };
 
   const validateForm = () => {
-    // 1. Güvenlik: Honeypot Kontrolü
     if (formData.honey !== "") {
       console.warn("Bot detected via honeypot.");
       return t.contact.errors.spam;
     }
-
-    // 2. Güvenlik: Zaman Kontrolü (Minimum 3 saniye)
     const timeElapsed = Date.now() - mountTime.current;
     if (timeElapsed < 3000) {
       console.warn("Form filled too fast. Possible bot.");
       return t.contact.errors.spam;
     }
-
-    // 3. Validasyon: Boş Alanlar
     if (
       !formData.name.trim() ||
       !formData.email.trim() ||
@@ -61,17 +49,12 @@ const Contact = () => {
     ) {
       return t.contact.errors.required;
     }
-
-    // 4. Validasyon: Gelişmiş Email Kontrolü
     if (!emailRegex.test(formData.email)) {
       return t.contact.errors.invalidEmail;
     }
-
-    // 5. Validasyon: Mesaj Uzunluğu
     if (formData.message.length < 10) {
       return t.contact.errors.short;
     }
-
     return null;
   };
 
@@ -88,27 +71,26 @@ const Contact = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
+      await emailjs.send(
+        import.meta.env.EMAILJS_SERVICE_ID, // Service ID
+        import.meta.env.EMAILJS_TEMPLATE_ID, // Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
           message: formData.message,
-        }),
-      });
+          to_name: "Yunuscan",
+        },
+        import.meta.env.EMAILJS_PUBLIC_KEY // Public Key
+      );
 
-      if (response.ok) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "", honey: "" });
-        mountTime.current = Date.now();
-        setTimeout(() => setStatus("idle"), 5000);
-      } else {
-        throw new Error("Failed to send message");
-      }
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "", honey: "" });
+      mountTime.current = Date.now();
+      setTimeout(() => setStatus("idle"), 5000);
     } catch (err) {
+      console.error("EmailJS Error:", err);
       setStatus("error");
-      setErrorMsg(err + " Network error. Please try again.");
+      setErrorMsg("Failed to send message. Please try again later.");
     }
   };
 
