@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# 🎨 Portfolio Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **[🇹🇷 Türkçe İçerik için Tıklayın / Click here for Turkish](./README.tr.md)**
 
-Currently, two official plugins are available:
+This directory contains the client-side application of the portfolio project, engineered with **React** and **Vite**. It is designed to provide a high-performance, futuristic user experience with seamless animations and interactive 3D elements.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🏗 Architecture & Design
 
-## React Compiler
+The frontend architecture is built around a component-based structure using **TypeScript** for type safety and scalability.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Core Features
 
-## Expanding the ESLint configuration
+- **Futuristic UI:** Utilizes **Tailwind CSS** and custom Cyberpunk aesthetics to create a visually striking interface.
+- **3D Interactivity:** Integrated **Three.js** (via React Three Fiber) to render the "TechScene," an interactive 3D sphere representing the digital realm.
+- **Smooth Transitions:** **Framer Motion** powers the page transitions and element animations, ensuring a fluid user journey.
+- **Serverless Communication:** The contact form operates without a dedicated backend mail server, utilizing **EmailJS** for direct transmission and **Google reCAPTCHA v2** for bot protection.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Key Components
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **`AdminPanel`:** A protected dashboard that consumes the Backend API to manage dynamic content (Projects & Experiences) securely via JWT.
+- **`GlobalContext`:** Manages application-wide state such as Multi-language support (TR/EN) and Theme switching (Dark/Light), persisting user preferences.
+- **`ProjectCard`:** A reusable, animated component used to display portfolio items fetched from the API.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠 Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Category        | Technology                       |
+| :-------------- | :------------------------------- |
+| **Framework**   | React 19, Vite                   |
+| **Language**    | TypeScript                       |
+| **Styling**     | Tailwind CSS, PostCSS            |
+| **Animation**   | Framer Motion                    |
+| **3D Graphics** | Three.js, React Three Fiber/Drei |
+| **Security**    | Google reCAPTCHA v2              |
