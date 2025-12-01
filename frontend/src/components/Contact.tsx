@@ -70,8 +70,8 @@ const Contact = () => {
 
     try {
       await emailjs.send(
-        import.meta.env.EMAILJS_SERVICE_ID, // Service ID
-        import.meta.env.EMAILJS_TEMPLATE_ID, // Template ID
+        import.meta.env.VITE_EMAILJS_SERVICE_ID, // Service ID
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Template ID
         {
           from_name: formData.name,
           from_email: formData.email,
