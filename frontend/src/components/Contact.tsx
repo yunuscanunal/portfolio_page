@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useGlobal } from "../context/GlobalContext";
 import emailjs from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
+
 const Contact = () => {
   const { t, theme } = useGlobal();
   const [formData, setFormData] = useState({
@@ -29,7 +31,8 @@ const Contact = () => {
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const validateForm = () => {
     if (formData.honey !== "") {
       console.warn("Bot detected via honeypot.");
@@ -60,7 +63,16 @@ const Contact = () => {
     e.preventDefault();
     setErrorMsg("");
     setStatus("loading");
-
+    const lastSent = localStorage.getItem("lastEmailSent");
+    if (lastSent) {
+      const timeDiff = Date.now() - parseInt(lastSent);
+      // 1 saat (3600000 ms) engel koy
+      if (timeDiff < 3600000) {
+        setStatus("error");
+        setErrorMsg("Please wait 1 hour before sending another message.");
+        return;
+      }
+    }
     const validationError = validateForm();
     if (validationError) {
       setErrorMsg(validationError);
@@ -77,28 +89,27 @@ const Contact = () => {
           from_email: formData.email,
           message: formData.message,
           to_name: "Yunuscan",
+          "g-recaptcha-response": captchaToken,
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Public Key
       );
 
       setStatus("success");
-      console.log(
-        "Email sent successfully." +
-          "name: " +
-          JSON.stringify(formData.name) +
-          " email: " +
-          JSON.stringify(formData.email) +
-          " message: " +
-          JSON.stringify(formData.message)
-      );
       setFormData({ name: "", email: "", message: "", honey: "" });
+      setCaptchaToken(null);
+      recaptchaRef.current?.reset();
       mountTime.current = Date.now();
+      localStorage.setItem("lastEmailSent", Date.now().toString());
       setTimeout(() => setStatus("idle"), 5000);
+      setStatus("success");
     } catch (err) {
       console.error("EmailJS Error:", err);
       setStatus("error");
       setErrorMsg("Failed to send message. Please try again later.");
     }
+  };
+  const onCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
   };
 
   return (
@@ -221,6 +232,14 @@ const Contact = () => {
                       : "border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                   }
                 `}
+              />
+            </div>
+            <div className="flex justify-center">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                onChange={onCaptchaChange}
+                theme={theme === "dark" ? "dark" : "light"}
               />
             </div>
 
