@@ -8,7 +8,7 @@ type Theme = "dark" | "light";
 interface GlobalContextType {
   language: Language;
   toggleLanguage: () => void;
-  t: (typeof translations)["en"];
+  t: (typeof translations)[Language];
   theme: Theme;
   toggleTheme: () => void;
 }
@@ -16,11 +16,12 @@ interface GlobalContextType {
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
-  // Language State (Default: 'en')
-  const [language, setLanguage] = useState<Language>("en");
-
-  // Theme State (Default: 'dark')
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [language, setLanguage] = useState<Language>(() => {
+    return (localStorage.getItem("lang") as Language) || "en";
+  });
+  const [theme, setTheme] = useState<Theme>(() => {
+    return (localStorage.getItem("theme") as Theme) || "dark";
+  });
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === "en" ? "tr" : "en"));
@@ -29,9 +30,11 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
-
-  // Theme değiştiğinde HTML class'ını güncelle
   useEffect(() => {
+    localStorage.setItem("lang", language);
+  }, [language]);
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
     const root = window.document.documentElement;
     root.classList.remove("dark", "light");
     root.classList.add(theme);
@@ -52,6 +55,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useGlobal = () => {
   const context = useContext(GlobalContext);
   if (context === undefined) {
