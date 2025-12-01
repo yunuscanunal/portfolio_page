@@ -22,16 +22,12 @@ const ProjectsSection = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // Hata ayıklama için konsola yazdıralım
-        console.log("Fetching projects from:", `${API_BASE_URL}/api/projects`);
-
         const response = await fetch(`${API_BASE_URL}/api/projects`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Projects data:", data); // Gelen veriyi görelim
         setProjects(data);
         setError(null);
       } catch (err) {
@@ -45,8 +41,6 @@ const ProjectsSection = () => {
     };
     fetchProjects();
   }, []);
-
-  // Hata durumunda basit bir mesaj gösterelim (İsteğe bağlı, tasarımı korumak isterseniz aşağıda return içinde handle edilebilir)
   if (error) {
     return (
       <section
@@ -58,8 +52,6 @@ const ProjectsSection = () => {
       </section>
     );
   }
-
-  // BAŞARILI VE YÜKLENİYOR DURUMU BURADA OLMALI (if bloğunun dışında)
   return (
     <section
       id="projects"
@@ -145,7 +137,6 @@ const ProjectsSection = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto px-4">
-            {/* Backend'den gelen veriyi göster */}
             {projects.map((p, index) => (
               <ProjectCard
                 key={index}
@@ -157,8 +148,6 @@ const ProjectsSection = () => {
                 demoUrl={p.demoUrl}
               />
             ))}
-
-            {/* Eğer hiç proje yoksa mesaj göster */}
             {projects.length === 0 && (
               <div className="col-span-full text-center text-gray-500 font-mono py-10">
                 No projects detected in the system.
