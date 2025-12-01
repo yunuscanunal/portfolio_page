@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useGlobal } from "../context/GlobalContext";
-import emailjs from "@emailjs/browser"; // Yeni eklenen import
+import emailjs from "@emailjs/browser";
 const Contact = () => {
   const { t, theme } = useGlobal();
-
-  // Form State
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -80,7 +78,7 @@ const Contact = () => {
           message: formData.message,
           to_name: "Yunuscan",
         },
-        import.meta.env.EMAILJS_PUBLIC_KEY // Public Key
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Public Key
       );
 
       setStatus("success");
@@ -146,7 +144,6 @@ const Contact = () => {
               className="hidden"
               autoComplete="off"
             />
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label
