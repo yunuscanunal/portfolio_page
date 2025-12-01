@@ -82,6 +82,15 @@ const Contact = () => {
       );
 
       setStatus("success");
+      console.log(
+        "Email sent successfully." +
+          "name: " +
+          JSON.stringify(formData.name) +
+          " email: " +
+          JSON.stringify(formData.email) +
+          " message: " +
+          JSON.stringify(formData.message)
+      );
       setFormData({ name: "", email: "", message: "", honey: "" });
       mountTime.current = Date.now();
       setTimeout(() => setStatus("idle"), 5000);
