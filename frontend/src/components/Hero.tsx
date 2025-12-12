@@ -145,7 +145,7 @@ const Hero = () => {
               <FaLinkedin size={20} />
             </motion.a>
             <motion.a
-              href="/cv.pdf" // Public klasörüne cv.pdf koyman gerekir
+              href="https://drive.google.com/file/d/1sdfUVdJ93VwHcY45x4weg44IhuX6NAQ9/view?usp=sharing"
               target="_blank"
               whileHover={{ y: -5 }}
               className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-colors font-mono text-sm
