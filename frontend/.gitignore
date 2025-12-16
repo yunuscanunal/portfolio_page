@@ -39,3 +39,6 @@ coverage
 
 # TypeScript
 *.tsbuildinfo
+
+.DS_Store
+frontend/.DS_Store
