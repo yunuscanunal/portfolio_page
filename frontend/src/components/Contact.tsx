@@ -89,8 +89,7 @@ const Contact = () => {
           from_email: formData.email,
           message: formData.message,
           to_name: "Yunuscan",
-          "g-recaptcha-response": null,
-          captchaToken: captchaToken,
+          "g-recaptcha-response": captchaToken,
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Public Key
       );
